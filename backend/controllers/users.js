@@ -6,7 +6,7 @@ const dotenv = require("dotenv")
 dotenv.config()
 const MY_APP_SECRET = process.env.APP_SECRET
 
-const model = require("../models/users")
+const modelUser = require("../models/users")
 
 var schema = new passwordValidator(); //pour définir une niveau minimum de sécurité des mots de passe
 schema
@@ -32,7 +32,7 @@ exports.signup = (req, res, next) => {
             name : req.body.name,
             moderator : 0 //personne ne devrait, on en placerait 1 à la main dans la Db.
         }
-        model.insertUser(user)
+        modelUser.insertUser(user)
           .then((id) => res.status(201).json({message : ' Utilisateur : ' + id + '  P7 créé !'}))
           .catch(error => res.status(400).json({ error}))
     })
@@ -48,7 +48,34 @@ exports.signup = (req, res, next) => {
 
 exports.login = (req, res, next) => {
   console.log("login a été appellé !")
-  return res.status(401).json({ error: 'Utilisateur non trouvé !' })
+  if ( !req.body.email || !req.body.password ) {
+    return res.status(400).json({message: "il manque l'adresse mail et/ou le mot de passe"})
+  }
+  modelUser.findUser(req.body.email)
+  .then((user) => {
+    if (!user) {
+      return res.status(401).json({ error: 'Utilisateur (email) non trouvé !' });
+    }
+    bcrypt.compare(req.body.password, user.password)
+          .then(valid => {
+            if (!valid) {
+              return res.status(401).json({ error: 'Mot de passe incorrect !' });
+            }
+            res.status(200).json({
+              userId: user.userid,
+              token: jwt.sign(
+                {userId : user.userid},
+                MY_APP_SECRET,  //'clef_secrete',
+                { expiresIn: '23h'}
+              )
+            });
+          })
+    //res.status(200).json({message : ' Utilisateur : ' + user.email + '  P7 trouvé  !'})
+  })
+  .catch(error => res.status(400).json({ error}))
+  }
+
+  //return res.status(401).json({ error: 'Utilisateur non trouvé !' })
   /*
     User.findOne({ email: req.body.email })
       .then(user => {
@@ -73,4 +100,3 @@ exports.login = (req, res, next) => {
       })
       .catch(error => res.status(500).json({ error }));
       */
-  };

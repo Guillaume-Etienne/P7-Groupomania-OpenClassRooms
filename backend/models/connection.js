@@ -15,8 +15,7 @@ const db = mysql.createConnection({
   
   db.connect(function(err) {
     if (err) throw err;
-    console.log("Connecté à MySQL chez users.js !");
+    console.log("Connecté à MySQL dans connection.js !");
   })
   
   module.exports=db
-  
