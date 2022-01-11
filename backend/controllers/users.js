@@ -6,6 +6,8 @@ const dotenv = require("dotenv")
 dotenv.config()
 const MY_APP_SECRET = process.env.APP_SECRET
 
+const model = require("../models/users")
+
 var schema = new passwordValidator(); //pour définir une niveau minimum de sécurité des mots de passe
 schema
 .is().min(4)                                    // Minimum length 4 (8 nomalement)
@@ -18,29 +20,6 @@ schema
 .is().not().oneOf(['Passw0rd', 'Password123']); // Blacklist these values
 */
 
-
-// my SQL : connexion : pourrait être une fonction unique (middle/db-config)
-
-const mysql = require('mysql')
-const MYSQL_SECRET = process.env.MYSQL_SECRET
-
-//Appeler et paramètrer la BDD mySQL
-
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: MYSQL_SECRET,
-  insecureAuth : true,
-  database : "p7bdd"
-})
-
-db.connect(function(err) {
-  if (err) throw err;
-  console.log("Connecté à MySQL chez users.js !");
-})
-
-
-
 //création au signup
 
 exports.signup = (req, res, next) => {
@@ -51,12 +30,11 @@ exports.signup = (req, res, next) => {
             email : req.body.email,
             password: hash,
             name : req.body.name,
-            picture : req.body.picture,
-            moderator : req.body.moderator
+            moderator : 0 //personne ne devrait, on en placerait 1 à la main dans la Db.
         }
-        user.save()
-            .then(() => res.status(201).json({message : ' Utilisateur  P7 créé !'}))
-            .catch(error => res.status(400).json({ error}))
+        model.insertUser(user)
+          .then((id) => res.status(201).json({message : ' Utilisateur : ' + id + '  P7 créé !'}))
+          .catch(error => res.status(400).json({ error}))
     })
     .catch(error => res.status(500).json({ error}))
   }
@@ -65,34 +43,8 @@ exports.signup = (req, res, next) => {
   }        
 }
 
-// qui a marché
-const newby = {
-  email: 'toto@toto.com',
-  password: 'azerty',
-  name: 'Toto de totocity',
-  picture: 'addresse de l image de toto',
-  moderator : true
-}
-
-db.query('INSERT INTO users SET ?', newby, (error, result, fields) =>{
-  if (error) {
-    console.error('Problème création user :' + error)
-    }
-  const id = result.resultId
-  console.log('result : '+ result)
-}
-)
 
 
-
-
-
-
-
-exports.signup = (req, res, next) => {
-  console.log(" signup est lancé !")
-  return res.status(401).json({ error: 'Utilisateur non trouvé !' });     
-}
 
 exports.login = (req, res, next) => {
   console.log("login a été appellé !")

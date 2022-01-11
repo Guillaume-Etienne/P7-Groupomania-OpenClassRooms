@@ -1,10 +1,39 @@
-const mongoose = require('mongoose')
-const uniqueValidator = require ('mongoose-unique-validator')
+const db = require ('./connection.js')
 
-const userSchema = mongoose.Schema({    
-    email: {type: String, required : true, unique: true},
-    password : {type: String, required : true}    
-})
+exports.insertUser = (newby) => {
+ return new Promise ((resolve, reject) =>{
+    db.query('INSERT INTO users SET ?', newby, (error, result, fields) =>{
+        if (error) {
+          console.error('Problème création user :' + error)
+          return reject(error)
+          }
+        const id = result.resultId
+        console.log('result : '+ result)
+        resolve(id)
+      }
+      )
+ }) 
+ 
+}
 
-userSchema.plugin(uniqueValidator)
-module.exports = mongoose.model('User', userSchema)
+
+
+
+/*
+// qui a marché
+const newby = {
+    email: 'toto@toto.com',
+    password: 'azerty',
+    name: 'Toto de totocity',
+    moderator : true
+  }
+  
+  db.query('INSERT INTO users SET ?', newby, (error, result, fields) =>{
+    if (error) {
+      console.error('Problème création user :' + error)
+      }
+    const id = result.resultId
+    console.log('result : '+ result)
+  }
+  )
+  */
