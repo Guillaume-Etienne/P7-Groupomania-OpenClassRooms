@@ -11,6 +11,6 @@ module.exports = (req, res, next) => {
         req.auth = {userId: userId} // raccourcis JS : req.auth = {userId}    parce que variable du même nom
             next()         
     } catch (error) {
-        res.status(401).json ({ error : error | 'Requête non authentifié dans le middleware auth.js !'})
+        res.status(401).json ({ error : error | 'Requête (Token) non authentifié dans le middleware auth.js !'})
     }
 }

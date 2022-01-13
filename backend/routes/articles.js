@@ -6,8 +6,13 @@ const auth = require('../middleware/auth')
 
 const multer = require('../middleware/multer-config')
 
+
+router.post('/', multer, articleCtrl.createarticles)
 /*
+
+pour le post, faudra ajouter le auth bien sûr :
 router.post('/', auth, multer, articleCtrl.createarticles)
+
 router.get('/', auth, articleCtrl.getAllarticles)
 router.get('/:id', auth, articleCtrl.getOnearticle)
 router.put('/:id', auth, multer, articleCtrl.modifyarticle)

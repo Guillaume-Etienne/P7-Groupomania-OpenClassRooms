@@ -1,6 +1,46 @@
-const Sauce = require("../models/Sauce");
-const fs = require("fs");
+const Article = require("../models/articlesmodel")
+const fs = require("fs")
+const modelArticle = require("../models/articlesmodel")
 
+exports.createarticles = (req, res, next) => {
+  console.log("Création d'article lancé !")
+  const articlecreated = req.file ? {
+    userid : req.body.userid,
+    articlecontent : req.body.articlecontent,
+    picture : `${req.protocol}://${req.get("host")}/images/${
+      req.file.filename
+    }`,
+    creationdate : new Date() 
+  } : {
+    userid : req.body.userid,
+    articlecontent : req.body.articlecontent,
+    picture : "no picture",
+    creationdate : new Date() 
+}
+modelArticle.insertArticle(articlecreated)
+  .then((id) => res.status(201).json({message : ' Article ' + id + '  P7 créé !'}))
+  .catch(error => res.status(400).json({ error}))
+}
+
+
+
+
+/*
+// trouve le truc pour ?
+const sauceObject = req.file
+        ? {
+            ...JSON.parse(req.body.sauce),
+            imageUrl: `${req.protocol}://${req.get("host")}/images/${
+              req.file.filename
+            }`,
+          }
+        : { ...req.body };
+      Sauce.updateOne(
+        { _id: req.params.id },
+        { ...sauceObject, _id: req.params.id }
+      )
+        .then(() => res.status(200).json({ message: "Sauce modifiée !" }))
+        .catch((error) => res.status(400).json({ error }));
 exports.createSauces = (req, res, next) => {
   const sauceObject = JSON.parse(req.body.sauce);
   const sauce = new Sauce({
@@ -20,6 +60,8 @@ exports.createSauces = (req, res, next) => {
       console.log(error);
     });
 };
+// fin de trouver
+
 
 exports.getAllSauces = (req, res, next) => {
   Sauce.find()
@@ -146,3 +188,4 @@ exports.likeSauce = (req, res, next) => {
     })
     .catch((error) => res.status(400).json({ error }));
 };
+*/
