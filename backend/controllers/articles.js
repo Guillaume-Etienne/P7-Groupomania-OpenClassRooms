@@ -3,7 +3,6 @@ const fs = require("fs")
 const modelArticle = require("../models/articlesmodel")
 
 exports.createarticles = (req, res, next) => {
-  console.log("Création d'article lancé !")
   const articlecreated = req.file ? {
     userid : req.body.userid,
     articlecontent : req.body.articlecontent,
@@ -23,44 +22,15 @@ modelArticle.insertArticle(articlecreated)
 }
 
 
+exports.getAllArticles = (req, res, next) => {
+  modelArticle.getAllArticle()
+    .then((articles) => res.status(200).json(articles))
+    .catch((error) => res.status(400).json({ error }));
+};
 
 
 /*
-// trouve le truc pour ?
-const sauceObject = req.file
-        ? {
-            ...JSON.parse(req.body.sauce),
-            imageUrl: `${req.protocol}://${req.get("host")}/images/${
-              req.file.filename
-            }`,
-          }
-        : { ...req.body };
-      Sauce.updateOne(
-        { _id: req.params.id },
-        { ...sauceObject, _id: req.params.id }
-      )
-        .then(() => res.status(200).json({ message: "Sauce modifiée !" }))
-        .catch((error) => res.status(400).json({ error }));
-exports.createSauces = (req, res, next) => {
-  const sauceObject = JSON.parse(req.body.sauce);
-  const sauce = new Sauce({
-    ...sauceObject,
-    imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
-    likes: 0,
-    dislikes: 0,
-    usersLiked: [],
-    usersDisliked: [],
-  });
-  sauce
-    .save()
-    .then(() =>
-      res.status(201).json({ message: "Et une nouvelle sauce enregistrée !" })
-    )
-    .catch((error) => {
-      console.log(error);
-    });
-};
-// fin de trouver
+
 
 
 exports.getAllSauces = (req, res, next) => {

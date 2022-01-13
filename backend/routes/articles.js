@@ -8,12 +8,13 @@ const multer = require('../middleware/multer-config')
 
 
 router.post('/', multer, articleCtrl.createarticles)
+router.get('/', articleCtrl.getAllArticles)
 /*
 
-pour le post, faudra ajouter le auth bien sûr :
+pour le post, get, faudra ajouter le auth bien sûr :
 router.post('/', auth, multer, articleCtrl.createarticles)
 
-router.get('/', auth, articleCtrl.getAllarticles)
+
 router.get('/:id', auth, articleCtrl.getOnearticle)
 router.put('/:id', auth, multer, articleCtrl.modifyarticle)
 router.delete('/:id', auth, articleCtrl.deletearticle)
