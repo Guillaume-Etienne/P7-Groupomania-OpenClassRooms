@@ -20,6 +20,7 @@ schema
 .is().not().oneOf(['Passw0rd', 'Password123']); // Blacklist these values
 */
 
+
 //création au signup
 
 exports.signup = (req, res, next) => {
@@ -44,7 +45,7 @@ exports.signup = (req, res, next) => {
 }
 
 
-
+//Login
 
 exports.login = (req, res, next) => {
   console.log("login a été appellé !")
@@ -65,11 +66,15 @@ exports.login = (req, res, next) => {
               userId: user.userid,
               token: jwt.sign(
                 {userId : user.userid},
-                MY_APP_SECRET,  //'clef_secrete',
+                MY_APP_SECRET,
                 { expiresIn: '23h'}
+                //renvoyer : nom ? Mail ?  IsAdmin ?
               )
             });
           })    
       })
   .catch(error => res.status(400).json({ error}))
-  }  
+  }
+
+
+  
