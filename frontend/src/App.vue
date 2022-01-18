@@ -1,5 +1,5 @@
 <template>
-  <div id="nav">
+  <div id="nav">    
     <router-link to="/">Home</router-link> |
     <router-link to="/Signin">Créer un compte</router-link> |
     <router-link to="/Login">Se connecter</router-link> |
@@ -21,12 +21,17 @@
   padding: 30px;
 }
 
+#nav img{
+  width: 40px;
+  transform: translateY(10px);
+}
+
 #nav a {
   font-weight: bold;
   color: #2c3e50;
 }
 
 #nav a.router-link-exact-active {
-  color: #e75f47;
+  color: #da381c;
 }
 </style>
