@@ -5,8 +5,9 @@
         <div class="layout">
             <h4>Votre identifiant secret : {{userId}}</h4>
             <p> Votre Clef (on ne devrait pas montrer ça aux enfants) : {{ token }}</p>
+            <h4>Votre nom : {{  }}</h4>
             <button @click= "updateuser" class="btn btn-dark suc">Modifer vos information</button>
-            <button @click= "deleteUser" class="btn btn-danger sup">Supprimer votre compte</button>             
+            <button @click= "deleteUser" class="btn btn-danger sup">Supprimer votre compte</button>           
         </div>
     </div>
     
@@ -18,21 +19,20 @@ import axios from 'axios'
 var userDuSto=localStorage.getItem('user')
 var userDuStoParse=JSON.parse(userDuSto)
 console.log('L\'ID du parsé dans le sto : ' + userDuStoParse.userId)
-
-axios.get(`http://localhost:3000/api/getoneuser/${data.userId}`)
+/*
+axios.get(`http://localhost:3000/api/auth/${userDuStoParse.userId}`)
         .then(response => {
           console.log(response.data)
-          this.user = response.data
+          this.username = response.data
         
          
         })
         .catch(error => console.log(error)) 
-
+*/
 export default {
     name: 'moncompte',
     data(){
-      userId:"";
-      token:""
+     
 
     return {
         //data:JSON.parse(localStorage.get('user')),
@@ -40,21 +40,19 @@ export default {
         token:userDuStoParse.token
     }
 },
-/*
 mounted(){
     //Appel de l'api pour l'affichafe des informations de l'utilisateur
-    let data = JSON.parse(this.$localStorage.get('user'))
-     axios.get(`http://localhost:3000/api/getoneuser/${data.userId}`)
+    
+     axios.get(`http://localhost:3000/api/auth/${userDuStoParse.userId}`)
         .then(response => {
           console.log(response.data)
           this.user = response.data
-        
-         
+          console.log("le this.user : " + this.user.userName)
+          console.table(this.user)
+          
         })
-        .catch(error => console.log(error)) 
-
+        .catch(error => console.log(error))
 },
-*/
 methods:{
 
     deleteUser : function () {//Fonction qui permet à l'utilisateur de supprimer son compte 
