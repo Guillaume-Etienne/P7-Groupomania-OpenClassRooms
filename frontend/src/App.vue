@@ -3,7 +3,7 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/Signin">Créer un compte</router-link> |
     <router-link to="/Login">Se connecter</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/about">Mon profil</router-link>
   </div>
   <router-view/>
 </template>
