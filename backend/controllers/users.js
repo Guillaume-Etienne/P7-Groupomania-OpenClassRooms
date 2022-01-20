@@ -24,6 +24,8 @@ schema
 //création au signup
 
 exports.signup = (req, res, next) => {
+  console.log(" Tapé dans le Back ! Signup dans contollers users !")
+  console.log("CORS Lancé mec !")
   if (schema.validate(req.body.password)) {
     bcrypt.hash(req.body.password, 10)
     .then(hash => {
@@ -48,7 +50,7 @@ exports.signup = (req, res, next) => {
 //Login
 
 exports.login = (req, res, next) => {
-  console.log("login a été appellé !")
+  console.log(" Tapé dans le Back ! Login dans contollers users !")
   if ( !req.body.email || !req.body.password ) {
     return res.status(400).json({message: "il manque l'adresse mail et/ou le mot de passe"})
   }

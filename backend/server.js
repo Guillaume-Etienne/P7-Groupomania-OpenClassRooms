@@ -3,6 +3,7 @@ console.log("Server.JS lancé !")
 const http = require('http')  
 const app = require('./app')
 
+const cors = require('cors')
 
 const normalizePort = val => {
   const port = parseInt(val, 10)  
@@ -40,6 +41,8 @@ const errorHandler = error => {
 }
 
 const server = http.createServer(app)  
+
+app.use(cors())
 
 server.on('error', errorHandler)  
 server.on('listening', () => {
