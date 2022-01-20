@@ -79,4 +79,26 @@ exports.login = (req, res, next) => {
   }
 
 
-  
+  //getOneUser    fournir le userId dans la requête, renvoie toutes les infos du user (j'espère)
+  exports.getOneUser = (req, res, next) => {
+    console.log(" Tapé dans le Back ! getOneUserLancé !")
+    console.log('récup l ID demandé : ' + req.params.id)
+    
+    if ( !req.params.id) {
+      return res.status(400).json({message: "il manque le userID dans la requête !  Je peux rien faire pour toi"})
+    }
+    modelUser.findUserDetails(req.params.id)
+    .then((user) => {
+      if (!user) {
+        return res.status(401).json({ error: 'Utilisateur (by ID) non trouvé dasn la requête controllers/users/finUserDetails!' });
+      }      
+      res.status(200).json({
+        userId: user.userid,
+        userName: user.name,
+        userEmail: user.email
+          //renvoyer : nom ? Mail ?  IsAdmin ?
+        
+      })
+    })  
+    .catch(error => res.status(400).json({ error}))
+    }
