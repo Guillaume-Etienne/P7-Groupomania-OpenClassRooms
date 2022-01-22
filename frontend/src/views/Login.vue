@@ -74,7 +74,7 @@ export default {
         let user = JSON.parse(this.$localStorage.get('user'));
         token = user.token;//Token d'authentification
         */
-        alert('Félicitation le front a passé l\'étape d\'après de connexion ! Et je ne sais même pas à quoi ça peut servir')
+        alert('Félicitation le front a passé l\'étape d\'après de connexion !')
         //window.location.href = "http://localhost:8080//#/connexion"
         })
       .catch(() => console.log('Echec de la connection catchée mais pas sûre en vrai')) 

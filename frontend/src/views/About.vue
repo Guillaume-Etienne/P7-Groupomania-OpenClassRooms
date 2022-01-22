@@ -1,14 +1,17 @@
 <template>
 <!--Espace personnel utilisateur-->
     <div id="moncompte" >
-        <h2>Mon espace</h2>
-        <div class="layout">
-            <h4>Votre identifiant secret : {{userId}}</h4>
-            <p> Votre Clef (on ne devrait pas montrer ça aux enfants) : {{ token }}</p>
-            <h4>Votre nom : {{  }}</h4>
-            <button @click= "updateuser" class="btn btn-dark suc">Modifer vos information</button>
+        <h2>Mon compte</h2>
+        <div class="layout">                       
+            <h4>Votre nom : {{ afficheNom  }}</h4>
+            <h4>Votre email : {{ afficheMail  }}</h4>
             <button @click= "deleteUser" class="btn btn-danger sup">Supprimer votre compte</button>           
         </div>
+        <br>
+        <div classe=info  v-for="usr in user" :key="usr.userId">          
+          <h4>des datas magiques : </h4>
+          <p><span>{{usr}}</span></p>
+          </div>
     </div>
     
 </template>
@@ -19,29 +22,24 @@ import axios from 'axios'
 var userDuSto=localStorage.getItem('user')
 var userDuStoParse=JSON.parse(userDuSto)
 console.log('L\'ID du parsé dans le sto : ' + userDuStoParse.userId)
-/*
-axios.get(`http://localhost:3000/api/auth/${userDuStoParse.userId}`)
-        .then(response => {
-          console.log(response.data)
-          this.username = response.data
-        
-         
-        })
-        .catch(error => console.log(error)) 
-*/
+
 export default {
     name: 'moncompte',
+    
     data(){
      
 
     return {
         //data:JSON.parse(localStorage.get('user')),
         userId:userDuStoParse.userId,
-        token:userDuStoParse.token
+        token:userDuStoParse.token,
+        user:"",
+        afficheNom:"",
+        afficheMail:""
     }
 },
 mounted(){
-    //Appel de l'api pour l'affichafe des informations de l'utilisateur
+    //Appel de l'api pour l'affichage des informations de l'utilisateur
     
      axios.get(`http://localhost:3000/api/auth/${userDuStoParse.userId}`)
         .then(response => {
@@ -49,7 +47,8 @@ mounted(){
           this.user = response.data
           console.log("le this.user : " + this.user.userName)
           console.table(this.user)
-          
+          this.afficheNom = this.user.userName
+          this.afficheMail = this.user.userEmail
         })
         .catch(error => console.log(error))
 },
@@ -80,22 +79,12 @@ methods:{
         }
     },
 
-         deco: function(){// Fonction qui permet à l'utilisateur de se déconnecter
+         deco: function(){// Déconnextion
             if(window.confirm('Voulez-vous vraiment vous déconnecter ?')){
               this.$localStorage.remove('user');
               window.location.href = " http://localhost:8080/#/home";
               location.reload(true);
             } 
-      },
-
-      updateuser : function() {//Fonction qui permet à l'utilisateur de modifier ses informations
-
-          let iduser = this.data.userId
-
-         window.location.href = `http://localhost:8080/#/updateuser?id=${iduser}`
-         location.reload(true);
-
-
       }
 }
 
