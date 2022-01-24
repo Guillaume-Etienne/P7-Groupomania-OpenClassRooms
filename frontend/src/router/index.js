@@ -5,7 +5,10 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    meta: {
+      auth:true
+    }
   },
   {
     path: '/Signin',
@@ -16,6 +19,14 @@ const routes = [
     path: '/Login',
     name: 'Login',
     component: () => import('../views/Login.vue')
+  },
+  {
+    path: '/Newarticle',
+    name: 'Newarticle',
+    component: () => import('../views/NewArticle.vue'),
+    meta: {
+      auth:true
+    }
   },
   {
     path: '/about',
@@ -32,4 +43,18 @@ const router = createRouter({
   routes
 })
 
+// authentificaion vérifiée ici :
+router.beforeEach((to, from, next)=>{
+  if(to.matched.some(record => record.meta.auth)){
+    if(localStorage.getItem('token')==null){
+      next({
+        path:"/Login"
+      })
+    }else{
+      next()
+    }
+  }else{
+    next()
+  }
+})
 export default router

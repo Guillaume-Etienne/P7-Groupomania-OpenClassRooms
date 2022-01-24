@@ -47,8 +47,7 @@ export default {
   },
   methods:{
     envoi : function () {//Fonction qui envoi le formulaire d'inscription à l'API
-      let token = ""
-      console.log("Fonction login lancé mec ! mail : " + this.email + " MDP : " + this.password)
+      let token = ""      
       if (this.email == "" || this.password == ""  ){
         alert('Veuillez remplir tous les champs avant d\'envoyer le formulaire !')
       }else {
@@ -63,19 +62,11 @@ export default {
             }
       })
       .then ((response) => {
-        console.log('connection réussi ! (chez le front hein t\'exite pas ')
-        let reponse = response.data;
-        let userObject = JSON.stringify(reponse);
-        console.table(userObject)
-        localStorage.setItem('user', userObject)
-        alert('Félicitation le front pense que vous êtes connecté !')
-        /*pour l'avenir
-        this.$localStorage.set('user', userObject)
-        let user = JSON.parse(this.$localStorage.get('user'));
-        token = user.token;//Token d'authentification
-        */
-        alert('Félicitation le front a passé l\'étape d\'après de connexion !')
-        //window.location.href = "http://localhost:8080//#/connexion"
+        console.log('connection réussi ! (chez le front hein t\'excite pas ')    
+        localStorage.setItem('userId', JSON.stringify(response.data.userId))
+        localStorage.setItem('admin', response.data.admin)
+        localStorage.setItem('token', response.data.token)        
+        router.push({name:"/"})
         })
       .catch(() => console.log('Echec de la connection catchée mais pas sûre en vrai')) 
       }

@@ -5,13 +5,10 @@
         <div class="layout">                       
             <h4>Votre nom : {{ afficheNom  }}</h4>
             <h4>Votre email : {{ afficheMail  }}</h4>
+            <button @click= "deco" class="btn btn-danger sup">Se déconnecter</button>
             <button @click= "deleteUser" class="btn btn-danger sup">Supprimer votre compte</button>           
         </div>
-        <br>
-        <div classe=info  v-for="usr in user" :key="usr.userId">          
-          <h4>des datas magiques : </h4>
-          <p><span>{{usr}}</span></p>
-          </div>
+        <br>        
     </div>
     
 </template>
@@ -19,9 +16,10 @@
 <script>
 
 import axios from 'axios'
-var userDuSto=localStorage.getItem('user')
-var userDuStoParse=JSON.parse(userDuSto)
-console.log('L\'ID du parsé dans le sto : ' + userDuStoParse.userId)
+var userDuSto=localStorage.getItem('userId')
+console.log("userduSto : " + userDuSto)
+//var userDuStoParse=JSON.parse(userDuSto)
+
 
 export default {
     name: 'moncompte',
@@ -31,8 +29,7 @@ export default {
 
     return {
         //data:JSON.parse(localStorage.get('user')),
-        userId:userDuStoParse.userId,
-        token:userDuStoParse.token,
+        userId:userDuSto,//Parse.userId,        
         user:"",
         afficheNom:"",
         afficheMail:""
@@ -41,12 +38,9 @@ export default {
 mounted(){
     //Appel de l'api pour l'affichage des informations de l'utilisateur
     
-     axios.get(`http://localhost:3000/api/auth/${userDuStoParse.userId}`)
-        .then(response => {
-          console.log(response.data)
-          this.user = response.data
-          console.log("le this.user : " + this.user.userName)
-          console.table(this.user)
+     axios.get(`http://localhost:3000/api/auth/${userDuSto}`)
+        .then(response => {          
+          this.user = response.data          
           this.afficheNom = this.user.userName
           this.afficheMail = this.user.userEmail
         })
@@ -81,8 +75,8 @@ methods:{
 
          deco: function(){// Déconnextion
             if(window.confirm('Voulez-vous vraiment vous déconnecter ?')){
-              this.$localStorage.remove('user');
-              window.location.href = " http://localhost:8080/#/home";
+              localStorage.clear()
+              window.location.href = " http://localhost:8080/#/"
               location.reload(true);
             } 
       }

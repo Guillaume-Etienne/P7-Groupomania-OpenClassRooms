@@ -1,12 +1,31 @@
 <template>
   <div id="nav">    
-    <router-link to="/">Home</router-link> |
-    <router-link to="/Signin">Créer un compte</router-link> |
-    <router-link to="/Login">Se connecter</router-link> |
-    <router-link to="/about">Mon profil</router-link>
+    <router-link to="/">Home  |</router-link>
+    <router-link v-if="!auth" to="/Signin">Créer un compte  |</router-link>
+    <router-link v-if="!auth" to="/Login">Se connecter  |</router-link>
+    <router-link v-if="auth" to="/about">Mon profil    |</router-link>
+    <router-link v-if="auth" to="/newarticle">Créer un nouveau message</router-link>
   </div>
   <router-view/>
 </template>
+
+<script>
+export default {
+       
+    data(){
+     
+      return {auth:false}
+    },
+    created(){
+      if (localStorage.getItem("token")==null){
+        this.auth=false
+      }else{
+        this.auth=true
+      }
+    }
+}
+
+</script>
 
 <style>
 #app {
@@ -29,6 +48,7 @@
 #nav a {
   font-weight: bold;
   color: #2c3e50;
+  text-decoration: none;
 }
 
 #nav a.router-link-exact-active {
