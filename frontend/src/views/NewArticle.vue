@@ -63,9 +63,9 @@ export default {
         headers:{
           //"Content-Type":"multipart/form-data",
           "Authorization":"Bearer:"+localStorage.getItem('token')
-        }
-      }        
-      )
+        }        
+      })
+      window.location.href = " http://localhost:8080/#/"
     }
   }
   

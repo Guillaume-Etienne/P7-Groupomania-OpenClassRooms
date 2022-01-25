@@ -23,6 +23,7 @@ modelArticle.insertArticle(articlecreated)
 
 
 exports.getAllArticles = (req, res, next) => {
+  console.log("getAllArticle lancé dans controllers.articles")
   modelArticle.getAllArticle()
     .then((articles) => res.status(200).json(articles))
     .catch((error) => res.status(400).json({ error }));
