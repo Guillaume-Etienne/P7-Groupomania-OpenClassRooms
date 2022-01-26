@@ -19,6 +19,7 @@ const rateLimit = require("express-rate-limit")
 
 const userRoutes = require('./routes/users')
 const articleRoutes = require('./routes/articles')
+const commentRoutes = require('./routes/comments')
 
 //Pour se protéger des attaques de type bruteforce :
 const apiLimiter = rateLimit({
@@ -28,6 +29,7 @@ const apiLimiter = rateLimit({
 
 app.use('/api/auth', apiLimiter, userRoutes)
 app.use('/api/articles', articleRoutes)
+app.use('/api/comments', commentRoutes)
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
