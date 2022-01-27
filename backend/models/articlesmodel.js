@@ -21,7 +21,7 @@ exports.insertArticle = (newby) => {
    exports.getAllArticle = () => {
     console.log('getAllArticle dans le articles model.js lancé')
     return new Promise ((resolve, reject) =>{
-       db.query('SELECT * FROM articles', (error, result, fields) =>{
+       db.query('SELECT a.*, u.name FROM articles a, users u WHERE a.userid=u.userid', (error, result, fields) =>{
            if (error) {
              console.log('Problème récupération de tous les articles dans le articlesmodels.js :' + error)
              return reject(error)

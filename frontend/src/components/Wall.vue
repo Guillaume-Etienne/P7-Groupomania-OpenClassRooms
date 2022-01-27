@@ -2,103 +2,24 @@
   <div id="wall">    
     <div class="getMessag">
       <h3 id="mess">Les messages</h3>
-      <div id="messdiv" class="msg" v-for="mess in msg" :key="mess.articleid"> <!-- @onclick pour faire apparaître la div "détail" -->
-        <div class="messauthor">
-          <p class="namepost">De : {{ mess.userid }}</p>
-          <p class="datepost">Le : {{ mess.creationdate }}</p>
-        </div>        
-        <p class="textpost">{{ mess.articlecontent }}</p>
-        <img id="imgpost" alt="Clavier" src="../assets/AZERTY.jpg">
-        <p @click="seeDetails = !seeDetails" > ...</p>
-        <div v-show="seeDetails" id="details">  
-                              <!--puis form pour ajout, bouton pour ajout, bouton "si proprio ou amdmin" effacer post -->
-          <div id="comments">
-            <!-- liste des commentaires, pour chacuns : bouton "si proprio ou amdmin" effacer comm-->
-          </div>
-          <form
-          id="formtog"
-          method="POST"
-          class="from-group"
-          @submit.prevent="sendMessage"
-          enctype="multipart/form-data"
-        >
-          <div class="form-group">
-            <label class="messa" for="message">
-          
-            </label>
-            <textarea
-              class="form-control"
-              name="message"
-              id="message"
-              cols="30"
-              rows="5"
-              v-model="message"
-            >
-            </textarea>
-            </div> 
-               <button type="submit" id="envoi" class="btn btn-danger">
-                  Envoyer
-                </button>
-      </form>
-        </div>
-
-
-        
-
-        
-        <!-- images et dates de création -->
-        
-        <!--<div class="buttoon">
-          <button @click= "updatemess(mess.idMESSAGES)" v-if="data.username == mess.username || data.status =='admin'" type="button" class="btn btn-success btn-sm mod">modifier</button>
-        <button
-          @click="deletemess(mess.idMESSAGES)"
-          v-if="data.username == mess.username || data.status == 'admin'"
-          type="button"
-          class="btn btn-danger btn-sm sup"
-          id="icon"
-        >
-          <font-awesome-icon icon="trash"/>
-        </button>
-        <button
-          @click="response(mess.idMESSAGES)"
-          class="btn btn-danger btn-circle text-uppercase bt"
-          id="reply"
-        >
-          <span class="glyphicon glyphicon-share-alt"></span>Repondre
-        </button>
-        
-        <button
-          @click="view(mess.idMESSAGES)"
-          class="btn btn-warning btn-circle text-uppercase bt"
-          id="voir"
-          data-toggle="collapse"
-          href="#/viewresponse"
-        >
-          <span class="glyphicon glyphicon-comment"></span>
-          Voir les réponses
-        </button>
-        -->
-      </div>
+      <Article v-for="message in messages" :key="message.articleid" v-bind="message"> </Article>
     </div>    
   </div>
 </template>
 
 <script>
 import axios from "axios"
-var userDuSto="userduSto"
+import Article from "./Article.vue"
+
 export default {
   name: "wall",
+  components:{
+    Article
+  },
+
   data() {
-    return {
-      seeDetails: false,
-      data: userDuSto,
-      message: "",
-      msg: "",
-      date: "",      
-      imess: "",
-      update: "",
-      user: "",
-      gifFile: ""
+    return {      
+      messages: []
     }
   },
   mounted() {
@@ -106,7 +27,7 @@ export default {
     axios
       .get("http://localhost:3000/api/articles")
       .then(response => {
-        this.msg = response.data;
+        this.messages = response.data;
       })
       .catch(error => console.log(error));
 
