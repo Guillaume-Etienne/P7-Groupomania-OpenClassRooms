@@ -18,7 +18,7 @@ exports.insertComment = (newby) => {
    }
 
 
-   exports.getAllComments = () => {  //que le titre pour le moment
+   exports.getByArticle = () => {  //que le titre pour le moment
     console.log('getAllArticle dans le articles model.js lancé')
     return new Promise ((resolve, reject) =>{
        db.query('SELECT * FROM articles', (error, result, fields) =>{

@@ -2,41 +2,50 @@
   <div id="wall">    
     <div class="getMessag">
       <h3 id="mess">Les messages</h3>
-      <div id="messdiv" class="msg" v-for="mess in msg" :key="mess.articleid">
+      <div id="messdiv" class="msg" v-for="mess in msg" :key="mess.articleid"> <!-- @onclick pour faire apparaître la div "détail" -->
         <div class="messauthor">
           <p class="namepost">De : {{ mess.userid }}</p>
           <p class="datepost">Le : {{ mess.creationdate }}</p>
         </div>        
         <p class="textpost">{{ mess.articlecontent }}</p>
-
-        <form
-      id="formtog"
-      method="POST"
-      class="from-group"
-      @submit.prevent="sendMessage"
-      enctype="multipart/form-data"
-    >
-      <div class="form-group">
-        <label class="messa" for="message">
-          
-        </label>
-        <textarea
-          class="form-control"
-          name="message"
-          id="message"
-          cols="30"
-          rows="5"
-          v-model="message"
+        <img id="imgpost" alt="Clavier" src="../assets/AZERTY.jpg">
+        <p @click="seeDetails = !seeDetails" > ...</p>
+        <div v-show="seeDetails" id="details">  
+                              <!--puis form pour ajout, bouton pour ajout, bouton "si proprio ou amdmin" effacer post -->
+          <div id="comments">
+            <!-- liste des commentaires, pour chacuns : bouton "si proprio ou amdmin" effacer comm-->
+          </div>
+          <form
+          id="formtog"
+          method="POST"
+          class="from-group"
+          @submit.prevent="sendMessage"
+          enctype="multipart/form-data"
         >
-        </textarea>
-      </div> 
-      <div class="button">
-        <input type="file" @change="onFileChange" id="image" name="image" accept="image/png, image/jpeg, image/gif"/>
-        <button type="submit" id="envoi" class="btn btn-danger">
-          Envoyer
-        </button>
-      </div>
-    </form>
+          <div class="form-group">
+            <label class="messa" for="message">
+          
+            </label>
+            <textarea
+              class="form-control"
+              name="message"
+              id="message"
+              cols="30"
+              rows="5"
+              v-model="message"
+            >
+            </textarea>
+            </div> 
+               <button type="submit" id="envoi" class="btn btn-danger">
+                  Envoyer
+                </button>
+      </form>
+        </div>
+
+
+        
+
+        
         <!-- images et dates de création -->
         
         <!--<div class="buttoon">
@@ -81,6 +90,7 @@ export default {
   name: "wall",
   data() {
     return {
+      seeDetails: false,
       data: userDuSto,
       message: "",
       msg: "",
@@ -129,6 +139,10 @@ export default {
   padding: 1px;  
   border-radius: 20px;
   box-shadow: 0 0 1em #D9D9D9;  
+}
+
+#imgpost {
+  width: 50%;
 }
 
 h3 {

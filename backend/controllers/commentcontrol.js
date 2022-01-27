@@ -14,6 +14,14 @@ comment.insertComment(commentcreated)
   .catch(error => res.status(400).json({ error}))
 }
 
+
+exports.getbyarticle = (req, res, next) => {
+  console.log("getAllComments lancé dans controllers.Comments")
+  modelArticle.getbyarticle(req)
+    .then((articles) => res.status(200).json(articles))
+    .catch((error) => res.status(400).json({ error }));
+}
+
 /*
 exports.getAllComments = (req, res, next) => {
   console.log("getAllComments lancé dans controllers.Comments")
