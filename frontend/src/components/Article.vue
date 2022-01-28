@@ -56,7 +56,7 @@
 
 <script>
 import axios from "axios"
-var toto = 35
+
 
 export default {
     props:["name", "articleid", "articlecontent", "picture", "creationdate"],
@@ -70,7 +70,7 @@ export default {
   mounted() {
     //Appel à l'api pour l'affichage de tous les messages
     axios
-      .get('http://localhost:3000/api/comments/getbyarticle/${toto}')
+      .get('http://localhost:3000/api/comments/getbyarticle/35')
       .then(response => {
         this.commentaires = response.data;
       })
