@@ -7,10 +7,22 @@
         <p class="textpost">{{ articlecontent }}</p>
         <img id="imgpost" alt="Clavier" src="../assets/AZERTY.jpg">
         <p @click="seeCommentaires" > ...</p>
-        <div v-show="seeDetails" id="details">            
+        <div v-show="seeDetails" id="details">
+            <h3>Commentaires</h3>         
                               <!-- -->
             <div class="comments" v-for="commentaire in commentaires" :key="commentaire.commentid">
-                {{ commentaire.name}} {{ commentaire.content}} 
+                <p>Le : {{ commentaire.creationdate }}, par : {{ commentaire.userid }} (Name : {{ name }})  </p>
+                <p>{{ commentaire.content}}</p>
+                <button
+                    @click="deletemess(mess.idMESSAGES)"                    
+                    type="button"
+                    class="btn btn-danger btn-sm sup"
+                    id="icon"
+                >
+                <!-- ajouter dans le button la ligne (adaptée bien sûr) v-if="data.username == mess.username || data.status == 'admin'" -->
+                    Supprimer ce commentaire
+                </button>
+                
             <!-- liste des commentaires, pour chacuns : bouton "si proprio ou amdmin" effacer comm-->
             </div>
             <form
@@ -43,6 +55,9 @@
 
 
 <script>
+import axios from "axios"
+var toto = 35
+
 export default {
     props:["name", "articleid", "articlecontent", "picture", "creationdate"],
     data() {
@@ -52,6 +67,15 @@ export default {
             message:""
         }
     },
+  mounted() {
+    //Appel à l'api pour l'affichage de tous les messages
+    axios
+      .get('http://localhost:3000/api/comments/getbyarticle/${toto}')
+      .then(response => {
+        this.commentaires = response.data;
+      })
+      .catch(error => console.log(error))
+  },
     methods:{
         seeCommentaires(){
             this.seeDetails=!this.seeDetails

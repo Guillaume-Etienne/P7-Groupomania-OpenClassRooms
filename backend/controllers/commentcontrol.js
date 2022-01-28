@@ -15,9 +15,16 @@ comment.insertComment(commentcreated)
 }
 
 
+exports.getAll = (req, res, next) => {
+  console.log("getAll lancé dans controllers.Comments")
+  comment.getAll(req.params.id)
+    .then((articles) => res.status(200).json(articles))
+    .catch((error) => res.status(400).json({ error }));
+}
+
 exports.getbyarticle = (req, res, next) => {
-  console.log("getAllComments lancé dans controllers.Comments")
-  modelArticle.getbyarticle(req)
+  console.log("getbyarticles lancé dans controllers.Comments")
+  comment.getCommentsByArticle(req.params.id)
     .then((articles) => res.status(200).json(articles))
     .catch((error) => res.status(400).json({ error }));
 }

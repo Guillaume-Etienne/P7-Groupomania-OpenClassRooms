@@ -29,17 +29,7 @@ export default {
       .then(response => {
         this.messages = response.data;
       })
-      .catch(error => console.log(error));
-
-    //let data = JSON.parse(localStorage.get("user"));
-    /*Appel à l'Api pour l'affichage des informations utilisateurs
-    axios
-      .get(`http://localhost:3000/api/getoneuser/${data.userId}`)
-      .then(response => {
-        this.user = response.data;
-      })
-      .catch(error => console.log(error));
-      */
+      .catch(error => console.log(error))
   }
 }
 </script>
