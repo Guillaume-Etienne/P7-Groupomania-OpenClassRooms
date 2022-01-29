@@ -1,13 +1,22 @@
 <template>
-    <div id="messdiv" class="msg" > <!-- @onclick pour faire apparaître la div "détail" -->
+    <div id="messdiv" class="msg" > 
         <div class="messauthor">
           <p class="namepost">De : {{ name }}</p>
           <p class="datepost">Le : {{ formattedDate }}</p>
         </div>        
         <p class="textpost">{{ articlecontent }}</p>
         <img class="imgpost" alt="Clavier" src="../assets/AZERTY.jpg">
-        <p @click="seeCommentaires" > ...</p>
-        <div v-show="seeDetails" id="details">
+        
+        <!-- Bouton de suppression : passer l'id de l'Article dans la fonction 'deleteArticle' --> 
+        <!-- ajouter dans le button la ligne (adaptée bien sûr) v-if="data.username == mess.username || data.status == 'admin'" -->
+        <button                    
+                    @click="deletearticle()"
+                    type="button"                    
+                >                
+                    Supprimer ce POST
+                </button>
+        <p @click="seeCommentaires" > ...</p> <!-- @onclick pour faire apparaître la div "détail" -->
+        <div v-show="seeDetails" class="details">
             <h3>Commentaires</h3>         
                               <!-- -->
             <div class="comments" v-for="commentaire in commentaires" :key="commentaire.commentid">
