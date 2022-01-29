@@ -16,7 +16,7 @@ exports.insertComment = (newby) => {
        })
     })  
    }
-   exports.getAll = () => {  //a tester
+   exports.getAll = () => {  //a tester / pas uttilié en réalité
     console.log('getALL dans le commentmodel.js lancé sans variable ')
     return new Promise ((resolve, reject) =>{
        db.query('SELECT * FROM comment', (error, result, fields) =>{
@@ -25,24 +25,20 @@ exports.insertComment = (newby) => {
              return reject(error)
            }
            const id = result
-           console.log('resultat : result: '+ id)
-           console.table(result)           
+                      
            resolve(id)
        })
     })  
    }
 
    exports.getCommentsByArticle = (ArticleIdTested) => {    
-    return new Promise ((resolve, reject) =>{
-      console.log('getCommeontByArticle dans la prmoise du commentmodel.js lancé. Variable : '+ ArticleIdTested)
+    return new Promise ((resolve, reject) =>{      
       db.query('SELECT * FROM comment WHERE articleid = ?', [ArticleIdTested], (error, result, fields) =>{
           if (error) {
             console.log('Problème récupération de comments dans commentsmodels.js  :' + error)
             return reject(error)
           }
-          const arrayReturned = result
-          console.log('arrayReturned : '+ arrayReturned)  
-          console.table(arrayReturned)                 
+          const arrayReturned = result                          
           resolve(arrayReturned)
       })
     })  

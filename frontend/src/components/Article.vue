@@ -10,6 +10,7 @@
         <!-- Bouton de suppression : passer l'id de l'Article dans la fonction 'deleteArticle' --> 
         <!-- ajouter dans le button la ligne (adaptée bien sûr) v-if="data.username == mess.username || data.status == 'admin'" -->
         <button                    
+                    v-if="isAdmin"
                     @click="deletearticle()"
                     type="button"                    
                 >                
@@ -65,7 +66,18 @@
 
 <script>
 import axios from "axios"
-
+var userConnectedIsAdmin=localStorage.getItem('admin')
+console.log('userConnectedIsAdmin : ' +userConnectedIsAdmin)
+let isAdminJs=false
+if (userConnectedIsAdmin=1){
+    isAdminJs=true
+    console.log('utilisateur Admin !')
+    }
+    else{
+        isAdminJs=false
+        console.log('utilisateur pas Admin !')
+    }
+console.log('isAdmin : ' + isAdminJs)
 
 export default {
     props:["name", "articleid", "articlecontent", "picture", "creationdate"],
@@ -73,10 +85,11 @@ export default {
         return {
             commentaires:[],
             seeDetails:false,
-            message:""
+            message:"",
+            isAdmin:isAdminJs         
         }
     },
-    computed: {
+    computed: {        
         formattedDate() {
             let date = new Date(this.creationdate)
             let day = Number(date.getDate()) >= 10 ? date.getDate() : '0'+date.getDate()
@@ -91,6 +104,7 @@ export default {
     }, 
     
   mounted() {
+      
     //Appel à l'api pour l'affichage de tous les messages
     axios
       .get('http://localhost:3000/api/comments/getbyarticle/35')
