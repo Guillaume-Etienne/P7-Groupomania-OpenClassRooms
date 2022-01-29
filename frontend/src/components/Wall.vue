@@ -39,14 +39,14 @@ export default {
 .messauthor {
   padding-left: 20px;
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+  flex-direction: row;  
   flex-wrap: wrap;
 }
 #messdiv {  
   color: #2c3e50;
   margin-top: 10px;
-  width: 90%;
+  margin-left: 10px;
+  margin-right: 10px;
   padding: 1px;  
   border-radius: 20px;
   box-shadow: 0 0 1em #D9D9D9;  

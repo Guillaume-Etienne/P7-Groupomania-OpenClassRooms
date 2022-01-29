@@ -2,10 +2,10 @@
     <div id="messdiv" class="msg" > <!-- @onclick pour faire apparaître la div "détail" -->
         <div class="messauthor">
           <p class="namepost">De : {{ name }}</p>
-          <p class="datepost">Le : {{ creationdate }}</p>
+          <p class="datepost">Le : {{ formattedDate }}</p>
         </div>        
         <p class="textpost">{{ articlecontent }}</p>
-        <img id="imgpost" alt="Clavier" src="../assets/AZERTY.jpg">
+        <img class="imgpost" alt="Clavier" src="../assets/AZERTY.jpg">
         <p @click="seeCommentaires" > ...</p>
         <div v-show="seeDetails" id="details">
             <h3>Commentaires</h3>         
@@ -67,6 +67,20 @@ export default {
             message:""
         }
     },
+    computed: {
+        formattedDate() {
+            let date = new Date(this.creationdate)
+            let day = Number(date.getDate()) >= 10 ? date.getDate() : '0'+date.getDate()
+            return `${day}/${date.getMonth()}/${date.getFullYear()} à ${date.getHours()}:${date.getMinutes()}`
+        },
+        dynamicProps() {
+            if(this.currentTab == 'Views') {
+                return { views:this.views }
+            }
+            return null
+        }
+    }, 
+    
   mounted() {
     //Appel à l'api pour l'affichage de tous les messages
     axios
@@ -93,7 +107,22 @@ export default {
   padding-left: 20px;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
   flex-wrap: wrap;
+}
+
+.datepost {
+    margin-left: 10px;
+    color: rgb(43, 7, 172);
+}
+
+.textpost {
+ margin-top: 1px;
+ text-align: start;
+ padding-left: 20px;
+}
+
+.imgpost {
+    width: 90%;
+    max-width: 100%;
 }
 </style>

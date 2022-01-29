@@ -41,22 +41,60 @@ export default {
       message: "",
       user: "",
       picture: "",
+      gifFile: "",
+      file:""
     }
   },
   
   methods:{
     
-    onFileChange(e){
-      this.picture=e.target.files[0].name // ne marche pas  ".name" ajouté pour avoir qq chose.
-      console.log("onFileChange lancé : " + this.picture)
-      console.table(this.picture)
-
+    /*
+    onFileChange: function(e){
+      //this.picture=e.target.files[0].name // ne marche pas  ".name" ajouté pour avoir qq chose.
+      // travail
+      const files =e.target.files || e.dataTransfer.files
+      console.log("onFileChange lancé . files : " + files)
+      if (files.lenght === 0) {return}
+      const reader = new FileReader()
+      reader.readAsDataURL(files[0])
+      reader.onload = () => {
+        this.picture = reader.result
+      }
     },
+
+      onFileChange: function(e) {
+      const files = e.target.files || e.dataTransfer.files;
+      console.log("onFileChange lancé . files : " + files)
+      if (files.length === 0) {
+        return;
+      }
+      const reader = new FileReader();
+      reader.readAsDataURL(files[0]);
+      reader.onload = () => {
+        this.gifFile = reader.result
+        console.log("onFileChange gifFile : " + reader.result)
+      }
+    },
+*/
+    onFileChange: function(e) {
+      const files = this.$refs.file.files[0];
+      console.log("onFileChange lancé . files : " + files)
+      if (files.length === 0) {
+        return;
+      }
+      const reader = new FileReader();
+      reader.readAsDataURL(files[0]);
+      reader.onload = () => {
+        this.gifFile = reader.result
+        console.log("onFileChange gifFile : " + reader.result)
+      }
+    },
+
 
     sendMessage(){      
       axios.post("http://localhost:3000/api/articles/", {
         "articlecontent" : this.message,
-        "picture": this.picture,
+        "picture": this.gifFile,
         "userid": localStorage.getItem('userId')
       },
       {
