@@ -5,7 +5,7 @@
           <p class="datepost">Le : {{ formattedDate }}</p>
         </div>        
         <p class="textpost">{{ articlecontent }}</p>
-        <img class="imgpost" alt="Clavier" src="../assets/AZERTY.jpg">
+        <img class="imgpost" alt="Clavier" :src="picture">
         
         <!-- Bouton de suppression : passer l'id de l'Article dans la fonction 'deleteArticle' --> 
         <!-- ajouter dans le button la ligne (adaptée bien sûr) v-if="data.username == mess.username || data.status == 'admin'" -->
@@ -66,6 +66,7 @@
 
 <script>
 import axios from "axios"
+// tout ce qui concerne le isAdmin  ... ne fonctionne pas
 var userConnectedIsAdmin=localStorage.getItem('admin')
 console.log('userConnectedIsAdmin : ' +userConnectedIsAdmin)
 let isAdminJs=false
@@ -78,6 +79,7 @@ if (userConnectedIsAdmin=1){
         console.log('utilisateur pas Admin !')
     }
 console.log('isAdmin : ' + isAdminJs)
+// fin du isAdmin
 
 export default {
     props:["name", "articleid", "articlecontent", "picture", "creationdate"],
@@ -93,7 +95,7 @@ export default {
         formattedDate() {
             let date = new Date(this.creationdate)
             let day = Number(date.getDate()) >= 10 ? date.getDate() : '0'+date.getDate()
-            return `${day}/${date.getMonth()}/${date.getFullYear()} à ${date.getHours()}:${date.getMinutes()}`
+            return `${day}/${date.getMonth()}2/${date.getFullYear()} à ${date.getHours()}:${date.getMinutes()}`
         },
         dynamicProps() {
             if(this.currentTab == 'Views') {
@@ -105,7 +107,7 @@ export default {
     
   mounted() {
       
-    //Appel à l'api pour l'affichage de tous les messages
+    //Appel à l'api pour l'affichage des commentaires
     axios
       .get('http://localhost:3000/api/comments/getbyarticle/35')
       .then(response => {
