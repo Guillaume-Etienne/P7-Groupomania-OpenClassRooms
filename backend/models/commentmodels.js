@@ -35,7 +35,7 @@ exports.insertComment = (newby) => {
    exports.getAll = () => {  //a tester / pas uttilié en réalité
     console.log('getALL dans le commentmodel.js lancé sans variable ')
     return new Promise ((resolve, reject) =>{
-       db.query('SELECT * FROM comment', (error, result, fields) =>{
+       db.query('SELECT c.*, u.name FROM comment c, users u WHERE c.userid=u.userid', (error, result, fields) =>{
            if (error) {
              console.log('Problème récupération de comments dans getAll commentsmodels.js  :' + error)
              return reject(error)

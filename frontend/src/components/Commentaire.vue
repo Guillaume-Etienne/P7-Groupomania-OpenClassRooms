@@ -1,10 +1,10 @@
 <template>
-    <div id="commdiv" class="com" > 
+    <div id="commdiv" class="com" >        
         <div class="messauthor">
           <p class="namepost">De : {{ name }}</p>
-          <p class="datepost">Le : {{ formattedDate }}</p>
+          <p class="datepost">Le : {{ creationdate }}</p>
         </div>        
-        <p class="textcom">{{ commentaire.content }}</p>        
+        <p class="textcom">{{ content }}</p>        
         <button
             @click="deletecom(mess.idMESSAGES)"                    
             type="button"
@@ -15,7 +15,6 @@
         </button>
     </div>
 </template>
-
 
 <script>
 import axios from "axios"
@@ -35,13 +34,13 @@ console.log('isAdmin : ' + isAdminJs)
 */
 
 export default {
-    props:["name", "articleid", "articlecontent", "picture", "creationdate"],
+    props:["name", "commentid","userid", "articleid", "content", "creationdate"],
     data() {
         return {
             commentaires:[],
             seeDetails:false,
-            message:"",
-            isAdmin:isAdminJs         
+            commentaire:"",
+            isAdmin:false         
         }
     },
     computed: {        
@@ -58,7 +57,7 @@ export default {
         }
     }, 
     
-  mounted() {
+  /*mounted() {
       
     //Appel à l'api pour l'affichage des commentaires
     axios
@@ -68,6 +67,7 @@ export default {
       })
       .catch(error => console.log(error))
   },
+  */
     methods:{
         seeCommentaires(){
             this.seeDetails=!this.seeDetails
@@ -81,26 +81,5 @@ export default {
 </script>
 
 <style scoped>
-.messauthor {
-  padding-left: 20px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
 
-.datepost {
-    margin-left: 10px;
-    color: rgb(43, 7, 172);
-}
-
-.textpost {
- margin-top: 1px;
- text-align: start;
- padding-left: 20px;
-}
-
-.imgpost {
-    width: 90%;
-    max-width: 100%;
-}
 </style>

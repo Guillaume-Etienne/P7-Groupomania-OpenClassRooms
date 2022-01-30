@@ -5,36 +5,23 @@
           <p class="datepost">Le : {{ formattedDate }}</p>
         </div>        
         <p class="textpost">{{ articlecontent }}</p>
-        <img class="imgpost" alt="Clavier" :src="picture">
+        <img class="imgpost" alt="Pas d'image" :src="picture">
         
         <!-- Bouton de suppression : passer l'id de l'Article dans la fonction 'deleteArticle' --> 
         <!-- ajouter dans le button la ligne (adaptée bien sûr) v-if="data.username == mess.username || data.status == 'admin'" -->
         <button                    
-                    v-if="isAdmin"
-                    @click="deletearticle()"
-                    type="button"                    
-                >                
-                    Supprimer ce POST
-                </button>
+            v-if="isAdmin"
+            @click="deletearticle()"
+            type="button"                    
+        >                
+            Supprimer ce POST
+        </button>
         <p @click="seeCommentaires" > ...</p> <!-- @onclick pour faire apparaître la div "détail" -->
         <div v-show="seeDetails" class="details">
             <h3>Commentaires</h3>         
                               <!-- -->
-            <div class="comments" v-for="commentaire in commentaires" :key="commentaire.commentid">
-                <p>Le : {{ commentaire.creationdate }}, par : {{ commentaire.userid }} (Name : {{ name }})  </p>
-                <p>{{ commentaire.content}}</p>
-                <button
-                    @click="deletemess(mess.idMESSAGES)"                    
-                    type="button"
-                    class="btn btn-danger btn-sm sup"
-                    id="icon"
-                >
-                <!-- ajouter dans le button la ligne (adaptée bien sûr) v-if="data.username == mess.username || data.status == 'admin'" -->
-                    Supprimer ce commentaire
-                </button>
-                
-            <!-- liste des commentaires, pour chacuns : bouton "si proprio ou amdmin" effacer comm-->
-            </div>
+            <Commentaire v-for="commentaire in commentaires" :key="commentaire.commentid" v-bind="commentaire"> </Commentaire>
+            
             <form
                 id="formtog"
                 method="POST"
@@ -66,6 +53,8 @@
 
 <script>
 import axios from "axios"
+import Commentaire from "./Commentaire.vue"
+
 // tout ce qui concerne le isAdmin  ... ne fonctionne pas
 var userConnectedIsAdmin=localStorage.getItem('admin')
 console.log('userConnectedIsAdmin : ' +userConnectedIsAdmin)
@@ -82,6 +71,10 @@ console.log('isAdmin : ' + isAdminJs)
 // fin du isAdmin
 
 export default {
+    name: "messdiv",
+    components:{
+        Commentaire
+    },
     props:["name", "articleid", "articlecontent", "picture", "creationdate"],
     data() {
         return {
@@ -109,7 +102,7 @@ export default {
       
     //Appel à l'api pour l'affichage des commentaires
     axios
-      .get('http://localhost:3000/api/comments/getbyarticle/35')
+      .get('http://localhost:3000/api/comments/')
       .then(response => {
         this.commentaires = response.data;
       })
