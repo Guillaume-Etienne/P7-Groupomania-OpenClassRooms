@@ -2,7 +2,7 @@
     <div id="commdiv" class="com" >
         <div class="comcontent">      
             <div class="messauthor">
-                <p class="namepost">De : {{ name }}, le {{ formattedDate }}</p>
+                <p class="namepost">Commentaire de : {{ name }}, le {{ formattedDate }}</p>
             </div>               
             <p class="textcom">{{ content }}</p>
         </div>      

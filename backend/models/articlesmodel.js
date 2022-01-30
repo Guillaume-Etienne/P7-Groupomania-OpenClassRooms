@@ -17,7 +17,6 @@ exports.insertArticle = (newby) => {
     })  
    }
 
-
    exports.getAllArticle = () => {
     //console.log('getAllArticle dans le articles model.js lancé')
     return new Promise ((resolve, reject) =>{
@@ -31,4 +30,18 @@ exports.insertArticle = (newby) => {
            resolve(id)
        })
     })  
+   }
+
+   exports.deleteArticle = (articleToDelete) => {
+    return new Promise ((resolve, reject) =>{
+      db.query('DELETE FROM articles WHERE articleid=?', [articleToDelete], (error, result, fields) =>{
+          if (error) {
+            console.log('Problème effacement dans commentsmodels.js  :' + error)
+            return reject(error)
+          }
+          const id = result
+                     
+          resolve(id)
+      })
+   })  
    }

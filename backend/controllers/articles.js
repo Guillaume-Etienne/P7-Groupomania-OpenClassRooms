@@ -27,8 +27,13 @@ exports.getAllArticles = (req, res, next) => {
   modelArticle.getAllArticle()
     .then((articles) => res.status(200).json(articles))
     .catch((error) => res.status(400).json({ error }));
-};
+}
 
+exports.deleteArticle = (req, res, next) => {  
+  modelArticle.deleteArticle(req.params.id)
+  .then((articles) => res.status(200).json(articles))
+  .catch((error) => res.status(400).json({ error }));
+}
 
 /*
 

@@ -11,7 +11,7 @@
         <!-- ajouter dans le button la ligne (adaptée bien sûr) v-if="data.username == mess.username || data.status == 'admin'" -->
         <button                    
             v-if="isAdmin"
-            @click="deletearticle()"
+            @click="deleteArticle(articleid)"
             type="button"                    
         >                
             Supprimer ce POST
@@ -115,6 +115,19 @@ export default {
                 if (!this.commentaires){}// axios.get this.commentaire = response.data}
             }
         },
+        deleteArticle: function (artToDelete) {// Passer l'id à péter fils            
+        
+        console.log("deleteArticle lancée pour : "+ artToDelete)        
+        if (confirm("êtes vous sûr de vouloir supprimer cet article ?")) {
+            axios.delete(`http://localhost:3000/api/articles/${artToDelete}`)
+                .then ((response) => {
+                    console.log('suppression ok by Front ')    
+        
+                })
+                .catch(() => console.log('Echec à la suppression mais pas sûre en vrai')) 
+            }
+        },
+        
         sendComment: function () {//Fonction qui envoi la réponse de l'utilisateur au serveur 
             
         let userConnected=localStorage.getItem('userId')

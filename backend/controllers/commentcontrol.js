@@ -28,10 +28,9 @@ exports.getbyarticle = (req, res, next) => {
     .catch((error) => res.status(400).json({ error }));
 }
 
-exports.deleteOneComment = (req, res, next) => {
-  console.log("deletOneComment lancé dans le commentcontrol.js")
+exports.deleteOneComment = (req, res, next) => {  
   comment.deleteComment(req.params.id)
-  .then((articles) => res.status(300).json(articles))
+  .then((articles) => res.status(200).json(articles))
   .catch((error) => res.status(400).json({ error }));
 }
 
