@@ -102,3 +102,9 @@ exports.login = (req, res, next) => {
     })  
     .catch(error => res.status(400).json({ error}))
     }
+
+    exports.deleteUser = (req, res, next) => {  
+      modelUser.deleteUser(req.params.id)
+      .then((articles) => res.status(200).json(articles))
+      .catch((error) => res.status(400).json({ error }));
+    }

@@ -71,12 +71,12 @@ export default {
       })
       .then ((response) => {
         console.log('Inscription réussi !')
+        alert('Félicitation vous êtes désormais inscrit, connectez-vous dès maintenant')
         let reponse = response.data;
         let userObject = JSON.stringify(reponse);
         this.$localStorage.set('user', userObject)
         let user = JSON.parse(this.$localStorage.get('user'));
-        token = user.token;//Token d'authentification
-        alert('Félicitation vous êtes désormais inscrit, connectez-vous dès maintenant')
+        token = user.token;//Token d'authentification        
         //window.location.href = "http://localhost:8080//#/connexion"
         })
       .catch(() => console.log('Echec de l\'inscription')) 

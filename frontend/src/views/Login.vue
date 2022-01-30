@@ -62,13 +62,18 @@ export default {
             }
       })
       .then ((response) => {
-        console.log('connection réussi ! (chez le front hein t\'excite pas ')    
+        console.log('connection réussi ! (chez le front hein t\'excite pas ')
+        alert('Vous êtes à présent connecté, bonne navigation !')    
         localStorage.setItem('userId', JSON.stringify(response.data.userId))
         localStorage.setItem('admin', response.data.admin)
         localStorage.setItem('token', response.data.token)        
-        router.push({name:"/"})
+        window.location.href = "http://localhost:8080/#/"
+        location.reload(true)
         })
-      .catch(() => console.log('Echec de la connection catchée mais pas sûre en vrai')) 
+      .catch(() => {
+        console.log('Echec de la connection catchée mais pas sûre en vrai')
+        alert('Echec de la connexion, veuillez essayer à nouveau')
+        }) 
       }
     }
   } 

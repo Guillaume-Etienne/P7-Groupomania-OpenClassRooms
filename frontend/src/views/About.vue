@@ -49,23 +49,13 @@ mounted(){
 methods:{
 
     deleteUser : function () {//Fonction qui permet à l'utilisateur de supprimer son compte 
-        let token = this.data.token
+    console.log('fonction suppression user lancée pour : '+userDuSto)
         if(confirm('Voulez vous vraiment supprimer le compte ?'),confirm('Cette opération est irreversible !')){
-             axios.post(`http://localhost:3000/api/deleteUser`, {
-                 userId: this.data.userId
-        },
-        {
-          headers: {
-            'Content-type': 'application/json',
-            'Authorization' : `Bearer ${token}`
-              }
-        })
+          axios.delete(`http://localhost:3000/api/auth/${userDuSto}`)
        .then (() => { 
-                    this.$localStorage.remove('user')
-                    document.getElementById('moncompte').style.display = 'none'
-                    alert('votre compte a bien été supprimé !')
-                    window.location.href = " http://localhost:8080/#/home"
-                    
+          localStorage.clear()
+          alert('votre compte a bien été supprimé !')
+          window.location.href = " http://localhost:8080/#/"                    
        })
        .catch(() =>{
          console.log('Votre compte n\'a pas pu être supprimé !')
@@ -76,7 +66,7 @@ methods:{
          deco: function(){// Déconnextion
             if(window.confirm('Voulez-vous vraiment vous déconnecter ?')){
               localStorage.clear()
-              window.location.href = " http://localhost:8080/#/"
+              window.location.href = "http://localhost:8080/#/"
               location.reload(true);
             } 
       }

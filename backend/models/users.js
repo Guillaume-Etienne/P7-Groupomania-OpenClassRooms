@@ -55,3 +55,17 @@ exports.findUserDetails = (userTested) => {
         })
     })
 }
+
+exports.deleteUser = (userToDelete) => {
+    return new Promise ((resolve, reject) =>{
+      db.query('DELETE FROM users WHERE userid=?', [userToDelete], (error, result, fields) =>{
+          if (error) {
+            console.log('Problème effacement dans le modèle users.js  :' + error)
+            return reject(error)
+          }
+          const id = result
+                     
+          resolve(id)
+      })
+   })  
+   }

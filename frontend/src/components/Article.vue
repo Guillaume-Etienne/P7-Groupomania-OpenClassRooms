@@ -152,7 +152,8 @@ export default {
             console.log('commentaire envoyé')
             this.message ==="";
             alert('votre commentaire a bien été envoyé !')
-            window.location.reload
+            window.location.href = "http://localhost:8080/#/"
+            location.reload(true)
        })
        .catch(() =>{
          console.log('la réponse n\'a pas été envoyé')
