@@ -19,7 +19,7 @@ exports.insertComment = (newby) => {
    
    exports.getCommentsByArticle = (ArticleIdTested) => {    
     return new Promise ((resolve, reject) =>{      
-      db.query('SELECT c.*, u.name FROM comment c, users u WHERE c.userid=u.userid AND articleid=?', [ArticleIdTested], (error, result, fields) =>{
+      db.query('SELECT c.*, u.name FROM comment c, users u WHERE c.userid=u.userid AND articleid=? ORDER BY creationdate DESC', [ArticleIdTested], (error, result, fields) =>{
         // version qui retourne les noms en plus. Validée Postman
         // version de base qui a été testée et fonctionne : 'SELECT * FROM comment WHERE articleid = ?'
           if (error) {

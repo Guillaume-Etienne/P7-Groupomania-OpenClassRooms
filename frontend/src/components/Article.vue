@@ -14,7 +14,7 @@
             @click="deleteArticle(articleid)"
             type="button"                    
         >                
-            Supprimer ce POST
+            Supprimer cette publication
         </button>
         <p @click="seeCommentaires" > ...</p> <!-- @onclick pour faire apparaître la div "détail" -->
         <div v-show="seeDetails" class="details">
@@ -124,7 +124,7 @@ export default {
                     console.log('suppression ok by Front ')    
         
                 })
-                .catch(() => console.log('Echec à la suppression mais pas sûre en vrai')) 
+                .catch(() => console.log('Echec à la suppression')) 
             }
         },
         
