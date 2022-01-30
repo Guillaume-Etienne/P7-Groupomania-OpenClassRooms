@@ -33,7 +33,7 @@ exports.insertComment = (newby) => {
    }
 
    exports.getAll = () => {  //a tester / pas uttilié en réalité
-    console.log('getALL dans le commentmodel.js lancé sans variable ')
+    //console.log('getALL dans le commentmodel.js lancé sans variable ')
     return new Promise ((resolve, reject) =>{
        db.query('SELECT c.*, u.name FROM comment c, users u WHERE c.userid=u.userid', (error, result, fields) =>{
            if (error) {

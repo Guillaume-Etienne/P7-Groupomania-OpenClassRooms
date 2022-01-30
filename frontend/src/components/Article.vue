@@ -114,7 +114,40 @@ export default {
             if (this.seeDetails){
                 if (!this.commentaires){}// axios.get this.commentaire = response.data}
             }
+        },
+        sendMessage: function () {//Fonction qui envoi la réponse de l'utilisateur au serveur 
+            //trouver comment remplir pour de vrai ci dessous :
+          
+        let idUSERS = 30
+        let idArticle = 27
+        if (this.message === ""){
+          alert('Vous n\'avez rien écris vous ne pouvez pas envoyé un message vide !')
+        } else{
+           axios.post('http://localhost:3000/api/comments',
+        {
+          userid : idUSERS,
+          articleid : idArticle,
+          commentcontent: this.message          
+        },{
+          headers: {
+            'Content-type': 'application/json',
+            'Authorization' : `Bearer`
+              }
+        })
+        .then (() => { 
+                    console.log('commentaire envoyé')
+                    this.message ==="";
+                    alert('votre commentaire a bien été envoyé !')
+                    window.location.href = `http://localhost:8080/#/viewresp?id=${idme}`
+
+                    
+       })
+       .catch(() =>{
+         console.log('la réponse n\'a pas été envoyé')
+       }) 
         }
+       
+      }
     }
 }
 
