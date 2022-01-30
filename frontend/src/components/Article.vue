@@ -1,7 +1,7 @@
 <template>
     <div id="messdiv" class="msg" > 
         <div class="messauthor">
-          <p class="namepost">De : {{ name }}</p>
+          <p class="namepost">Publication de : {{ name }}</p>
           <p class="datepost">Le : {{ formattedDate }}</p>
         </div>        
         <p class="textpost">{{ articlecontent }}</p>
@@ -21,7 +21,7 @@
             <h3>Commentaires</h3>         
                               <!-- -->
             <Commentaire v-for="commentaire in commentaires" :key="commentaire.commentid" v-bind="commentaire"> </Commentaire>
-            
+            <h4>Ajouter un Commentaire</h4>
             <form
                 id="formtog"
                 method="POST"
@@ -121,6 +121,17 @@ export default {
 </script>
 
 <style scoped>
+.details {
+  background-color: aliceblue;  
+  color: #2c3e50;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  padding: 1px;  
+  border-radius: 20px;
+  box-shadow: 0 0 1em #D9D9D9;  
+}
 .messauthor {
   padding-left: 20px;
   display: flex;

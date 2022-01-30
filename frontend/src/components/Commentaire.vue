@@ -1,9 +1,11 @@
 <template>
-    <div id="commdiv" class="com" >        
-        <div class="messauthor">
-          <p class="namepost">De : {{ name }}, le {{ formattedDate }}</p>          
-        </div>        
-        <p class="textcom">{{ content }}</p>        
+    <div id="commdiv" class="com" >
+        <div class="comcontent">      
+            <div class="messauthor">
+                <p class="namepost">De : {{ name }}, le {{ formattedDate }}</p>
+            </div>               
+            <p class="textcom">{{ content }}</p>
+        </div>      
         <button
             @click="deletecom(mess.idMESSAGES)"                    
             type="button"
@@ -60,6 +62,17 @@ export default {
 </script>
 
 <style scoped>
+.comcontent {
+  background-color: white;  
+  color: #2c3e50;
+  margin-top: 15px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 10px;
+  padding: 1px;  
+  border-radius: 20px;
+  box-shadow: 0 0 1em #D9D9D9;  
+}
 .messauthor {
   padding-left: 20px;
   display: flex;
