@@ -26,7 +26,7 @@
                 id="formtog"
                 method="POST"
                 class="from-group"
-                @submit.prevent="sendMessage"                
+                @submit.prevent="sendComment"                
             >
                 <div class="form-group">
                     <label class="messa" for="message">
@@ -115,11 +115,12 @@ export default {
                 if (!this.commentaires){}// axios.get this.commentaire = response.data}
             }
         },
-        sendMessage: function () {//Fonction qui envoi la réponse de l'utilisateur au serveur 
-            //trouver comment remplir pour de vrai ci dessous :
-          
-        let idUSERS = 30
-        let idArticle = 27
+        sendComment: function () {//Fonction qui envoi la réponse de l'utilisateur au serveur 
+            
+        let userConnected=localStorage.getItem('userId')
+        console.log("userconnected détecté : "+ userConnected)
+        let idUSERS = userConnected
+        let idArticle = this.articleid
         if (this.message === ""){
           alert('Vous n\'avez rien écris vous ne pouvez pas envoyé un message vide !')
         } else{
@@ -135,12 +136,10 @@ export default {
               }
         })
         .then (() => { 
-                    console.log('commentaire envoyé')
-                    this.message ==="";
-                    alert('votre commentaire a bien été envoyé !')
-                    window.location.href = `http://localhost:8080/#/viewresp?id=${idme}`
-
-                    
+            console.log('commentaire envoyé')
+            this.message ==="";
+            alert('votre commentaire a bien été envoyé !')
+            window.location.reload
        })
        .catch(() =>{
          console.log('la réponse n\'a pas été envoyé')

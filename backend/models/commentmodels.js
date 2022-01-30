@@ -46,3 +46,17 @@ exports.insertComment = (newby) => {
        })
     })  
    }
+
+   exports.deleteComment = (commentToDelete) => {
+    return new Promise ((resolve, reject) =>{
+      db.query('DELETE FROM comment WHERE commentid=?', [commentToDelete], (error, result, fields) =>{
+          if (error) {
+            console.log('Problème effacement dans commentsmodels.js  :' + error)
+            return reject(error)
+          }
+          const id = result
+                     
+          resolve(id)
+      })
+   })  
+   }

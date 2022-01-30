@@ -15,26 +15,23 @@ comment.insertComment(commentcreated)
 }
 
 
-exports.getAll = (req, res, next) => {
-  console.log("getAll lancé dans controllers.Comments")
+exports.getAll = (req, res, next) => {  
   comment.getAll(req.params.id)
     .then((articles) => res.status(200).json(articles))
     .catch((error) => res.status(400).json({ error }));
 }
 
 exports.getbyarticle = (req, res, next) => {
-  console.log("getbyarticles lancé dans controllers.Comments")
+  //console.log("getbyarticles lancé dans controllers.Comments")
   comment.getCommentsByArticle(req.params.id)
     .then((articles) => res.status(200).json(articles))
     .catch((error) => res.status(400).json({ error }));
 }
 
-/*
-exports.getAllComments = (req, res, next) => {
-  console.log("getAllComments lancé dans controllers.Comments")
-  modelArticle.getAllArticle()
-    .then((articles) => res.status(200).json(articles))
-    .catch((error) => res.status(400).json({ error }));
+exports.deleteOneComment = (req, res, next) => {
+  console.log("deletOneComment lancé dans le commentcontrol.js")
+  comment.deleteComment(req.params.id)
+  .then((articles) => res.status(300).json(articles))
+  .catch((error) => res.status(400).json({ error }));
 }
-*/
 

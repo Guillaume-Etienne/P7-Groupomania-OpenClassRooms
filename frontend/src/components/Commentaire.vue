@@ -7,7 +7,7 @@
             <p class="textcom">{{ content }}</p>
         </div>      
         <button
-            @click="deletecom(mess.idMESSAGES)"                    
+            @click="deletecom(commentid)"                    
             type="button"
             class="btn btn-danger btn-sm sup"
             id="icon"        >
@@ -56,7 +56,21 @@ export default {
             }
             return null
         }
+    },
+    methods : {
+        deletecom: function (comToDelete) {//Fonction qui envoi la réponse de l'utilisateur au serveur            
+        
+        console.log("deletecom lancée pour : "+ comToDelete)        
+        if (confirm("êtes vous sûr de vouloir supprimer ce message ?")) {
+            axios.delete(`http://localhost:3000/api/comments/${comToDelete}`)
+                .then ((response) => {
+                    console.log('suppression ok by Front ')    
+        
+                })
+                .catch(() => console.log('Echec à la suppression mais pas sûre en vrai')) 
+        }
     }
+}
 }
 
 </script>
