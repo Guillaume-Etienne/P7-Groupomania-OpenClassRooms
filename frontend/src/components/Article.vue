@@ -99,10 +99,10 @@ export default {
     }, 
     
   mounted() {
-      
+      console.log('trouver le article id : '+ this.articleid)
     //Appel à l'api pour l'affichage des commentaires
     axios
-      .get('http://localhost:3000/api/comments/')
+      .get(`http://localhost:3000/api/comments/getbyarticle/${this.articleid}`)
       .then(response => {
         this.commentaires = response.data;
       })

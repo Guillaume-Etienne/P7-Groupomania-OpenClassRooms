@@ -1,8 +1,7 @@
 <template>
     <div id="commdiv" class="com" >        
         <div class="messauthor">
-          <p class="namepost">De : {{ name }}</p>
-          <p class="datepost">Le : {{ creationdate }}</p>
+          <p class="namepost">De : {{ name }}, le {{ formattedDate }}</p>          
         </div>        
         <p class="textcom">{{ content }}</p>        
         <button
@@ -55,31 +54,23 @@ export default {
             }
             return null
         }
-    }, 
-    
-  /*mounted() {
-      
-    //Appel à l'api pour l'affichage des commentaires
-    axios
-      .get('http://localhost:3000/api/comments/getbyarticle/35')
-      .then(response => {
-        this.commentaires = response.data;
-      })
-      .catch(error => console.log(error))
-  },
-  */
-    methods:{
-        seeCommentaires(){
-            this.seeDetails=!this.seeDetails
-            if (this.seeDetails){
-                if (!this.commentaires){}// axios.get this.commentaire = response.data}
-            }
-        }
     }
 }
 
 </script>
 
 <style scoped>
+.messauthor {
+  padding-left: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  color: rgb(43, 7, 172);
+}
 
+.textcom {
+ margin-top: 1px;
+ text-align: start;
+ padding-left: 20px;
+}
 </style>
