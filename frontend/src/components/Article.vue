@@ -108,7 +108,11 @@ export default {
         getCommentaires(){
             //Appel à l'api pour l'affichage des commentaires
             axios
-            .get(`http://localhost:3000/api/comments/getbyarticle/${this.articleid}`)
+            .get(`http://localhost:3000/api/comments/getbyarticle/${this.articleid}`,{
+                    headers:{
+                    "Authorization":"Bearer: "+localStorage.getItem('token')
+                    }
+                })
             .then(response => {
                 this.commentaires = response.data;
             })
@@ -120,10 +124,14 @@ export default {
                 if (!this.commentaires){}// axios.get this.commentaire = response.data}
             }
         },
-        deleteArticle: function (artToDelete) {// Passer l'id à péter fils   
+        deleteArticle: function (artToDelete) { 
             console.log("deleteArticle lancée pour : "+ artToDelete)        
-            if (confirm("êtes vous sûr de vouloir supprimer cet article ?")) {
-                axios.delete(`http://localhost:3000/api/articles/${artToDelete}`)
+            if (confirm("êtes vous sûr de vouloir supprimer ce post ? (ne fonctionnera que si c'est votre post ou si vous êtes modérateur")) {
+                axios.delete(`http://localhost:3000/api/articles/${artToDelete}`,{
+                    headers:{
+                    "Authorization":"Bearer: "+localStorage.getItem('token')
+                    }
+                })
                 .then ((response) => {
                     console.log('suppression ok by Front ')
                     this.$emit("reloadArticle")  
@@ -146,20 +154,17 @@ export default {
                     articleid : idArticle,
                     commentcontent: this.message          
                 },{
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization' : `Bearer`
+                    headers:{
+                    "Authorization":"Bearer: "+localStorage.getItem('token')
                     }
                 })
                 .then (() => {
                     this.getCommentaires()
                     console.log('commentaire envoyé')
                     this.message ==="";
-                    alert('votre commentaire a bien été envoyé !')
-                    
                 })
                 .catch(() =>{
-                    console.log('la réponse n\'a pas été envoyé')
+                    console.log('Le commentaire n\'a pas été envoyé')
                 }) 
             }
        

@@ -57,7 +57,11 @@ export default {
         
         console.log("deletecom lancée pour : "+ comToDelete)        
         if (confirm("êtes vous sûr de vouloir supprimer ce message ?")) {
-            axios.delete(`http://localhost:3000/api/comments/${comToDelete}`)
+            axios.delete(`http://localhost:3000/api/comments/${comToDelete}`,{
+                    headers:{
+                    "Authorization":"Bearer: "+localStorage.getItem('token')
+                    }
+                })
                 .then ((response) => {
                     console.log('suppression ok by Front ')
                     this.$emit("reloadCommentaire")  

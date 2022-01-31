@@ -29,7 +29,11 @@ export default {
   methods: {
     getArticles() {
       axios
-      .get("http://localhost:3000/api/articles")
+      .get("http://localhost:3000/api/articles",{
+        headers:{
+          "Authorization":"Bearer: "+localStorage.getItem('token')
+        }
+      })
       .then(response => {
         this.messages = response.data;
       })

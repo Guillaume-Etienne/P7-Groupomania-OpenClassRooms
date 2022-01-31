@@ -30,7 +30,7 @@ exports.getAllArticles = (req, res, next) => {
 }
 
 exports.deleteArticle = (req, res, next) => {  
-  if (req.user.admin) {
+  if (req.auth.admin) {
     modelArticle.deleteArticle(req.params.id)
   .then((articles) => res.status(200).json(articles))
   .catch((error) => res.status(400).json({ error }));
