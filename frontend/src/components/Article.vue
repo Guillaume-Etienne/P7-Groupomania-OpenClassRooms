@@ -5,7 +5,7 @@
           <p class="datepost">Le : {{ formattedDate }}</p>
         </div>        
         <p class="textpost">{{ articlecontent }}</p>
-        <img class="imgpost" alt="Pas d'image" :src="picture">
+        <img class="imgpost" alt="" :src="picture">
         
         <!-- Bouton de suppression : passer l'id de l'Article dans la fonction 'deleteArticle' --> 
         <!-- ajouter dans le button la ligne (adaptée bien sûr) v-if="data.username == mess.username || data.status == 'admin'" -->
@@ -15,7 +15,7 @@
             type="button"                    
         >                
             Supprimer cette publication
-        </button>
+        </button>       
         <p @click="seeCommentaires" > ...</p> <!-- @onclick pour faire apparaître la div "détail" -->
         <div v-show="seeDetails" class="details">
             <h3>Commentaires</h3>         
@@ -55,11 +55,13 @@
 import axios from "axios"
 import Commentaire from "./Commentaire.vue"
 
-// tout ce qui concerne le isAdmin  ... ne fonctionne pas
+// tout ce qui concerne le isAdmin
 var userConnectedIsAdmin=localStorage.getItem('admin')
-console.log('userConnectedIsAdmin : ' +userConnectedIsAdmin)
-let isAdminJs=false
-if (userConnectedIsAdmin=1){
+var userConnectedId=localStorage.getItem('userId')
+console.log('userConnectedIsAdmin : ' +userConnectedIsAdmin +' UserConnectedId: ' + userConnectedId)
+let isAdminJs=true
+/*
+if (userConnectedIsAdmin==="1"){
     isAdminJs=true
     console.log('utilisateur Admin !')
     }
@@ -68,7 +70,7 @@ if (userConnectedIsAdmin=1){
         console.log('utilisateur pas Admin !')
     }
 console.log('isAdmin : ' + isAdminJs)
-// fin du isAdmin
+// fin du isAdmin */
 
 export default {
 
@@ -90,17 +92,11 @@ export default {
             let date = new Date(this.creationdate)
             let day = Number(date.getDate()) >= 10 ? date.getDate() : '0'+date.getDate()
             return `${day}/${date.getMonth()}2/${date.getFullYear()} à ${date.getHours()}:${date.getMinutes()}`
-        },
-        dynamicProps() {
-            if(this.currentTab == 'Views') {
-                return { views:this.views }
-            }
-            return null
-        }
+        }        
     }, 
     
   mounted() {
-    console.log('trouver le article id : '+ this.articleid)
+    
     //Appel à l'api pour l'affichage des commentaires
     this.getCommentaires()
   },

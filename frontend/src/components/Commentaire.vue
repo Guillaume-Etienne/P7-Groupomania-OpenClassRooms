@@ -76,6 +76,25 @@ export default {
 </script>
 
 <style scoped>
+button {
+  background-image: linear-gradient(to right, #8898f3 0%, #a924dd  51%, #2f4eff  100%);
+   margin: 10px;
+            padding: 10px 20px;
+            text-align: center;
+            text-transform: uppercase;
+            transition: 0.5s;
+            background-size: 200% auto;
+            color: white;            
+            box-shadow: 0 0 20px #eee;
+            border-radius: 10px;
+            
+  }
+button:hover {
+  background-position: right center; /* change the direction of the change here */
+            color: #fff;
+            text-decoration: none;
+  border-radius: 5px;
+}
 .comcontent {
   background-color: white;  
   color: #2c3e50;

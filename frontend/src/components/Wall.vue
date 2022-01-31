@@ -42,7 +42,27 @@ export default {
   }
 }
 </script>
-
+<style>
+button {
+  background-image: linear-gradient(to right, #FF512F 0%, #DD2476  51%, #FF512F  100%);
+   margin: 10px;
+            padding: 10px 20px;
+            text-align: center;
+            text-transform: uppercase;
+            transition: 0.5s;
+            background-size: 200% auto;
+            color: white;            
+            box-shadow: 0 0 20px #eee;
+            border-radius: 10px;
+            
+  }
+button:hover {
+  background-position: right center; /* change the direction of the change here */
+            color: #fff;
+            text-decoration: none;
+  border-radius: 5px;
+}
+</style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .messauthor {
