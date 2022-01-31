@@ -7,6 +7,7 @@
             <p class="textcom">{{ content }}</p>
         </div>      
         <button
+            v-if="showButton"
             @click="deletecom(commentid)"                    
             type="button"
             class="btn btn-danger btn-sm sup"
@@ -19,20 +20,6 @@
 
 <script>
 import axios from "axios"
-/* tout ce qui concerne le isAdmin  ... ne fonctionne pas
-var userConnectedIsAdmin=localStorage.getItem('admin')
-console.log('userConnectedIsAdmin : ' +userConnectedIsAdmin)
-let isAdminJs=false
-if (userConnectedIsAdmin=1){
-    isAdminJs=true
-    console.log('utilisateur Admin !')
-    }
-    else{
-        isAdminJs=false
-        console.log('utilisateur pas Admin !')
-    }
-console.log('isAdmin : ' + isAdminJs)
-*/
 
 export default {
     props:["name", "commentid","userid", "articleid", "content", "creationdate"],
@@ -42,7 +29,7 @@ export default {
             commentaires:[],
             seeDetails:false,
             commentaire:"",
-            isAdmin:false         
+            showButton:false         
         }
     },
     computed: {        
@@ -51,6 +38,11 @@ export default {
             let day = Number(date.getDate()) >= 10 ? date.getDate() : '0'+date.getDate()
             return `${day}/${date.getMonth()}2/${date.getFullYear()} à ${date.getHours()}:${date.getMinutes()}`
         }        
+    },
+    mounted(){
+        if(this.userid == localStorage.getItem('userId') || localStorage.getItem('admin')==1){
+        this.showButton = true
+    }
     },
     methods : {
         deletecom (comToDelete) {//Fonction qui envoi la réponse de l'utilisateur au serveur            
