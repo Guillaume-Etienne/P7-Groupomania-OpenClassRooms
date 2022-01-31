@@ -7,6 +7,7 @@ dotenv.config()
 const MY_APP_SECRET = process.env.APP_SECRET
 
 const modelUser = require("../models/users")
+const modelArticle = require("../models/articlesmodel")
 
 var schema = new passwordValidator(); //pour définir une niveau minimum de sécurité des mots de passe
 schema
@@ -103,7 +104,8 @@ exports.login = (req, res, next) => {
     .catch(error => res.status(400).json({ error}))
     }
 
-    exports.deleteUser = (req, res, next) => {  
+    exports.deleteUser = (req, res, next) => {
+      //modelarticle:pète tous ses articles
       modelUser.deleteUser(req.params.id)
       .then((articles) => res.status(200).json(articles))
       .catch((error) => res.status(400).json({ error }));

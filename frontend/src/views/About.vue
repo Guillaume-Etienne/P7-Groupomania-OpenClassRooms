@@ -66,8 +66,7 @@ methods:{
          deco: function(){// Déconnextion
             if(window.confirm('Voulez-vous vraiment vous déconnecter ?')){
               localStorage.clear()
-              window.location.href = "http://localhost:8080/#/"
-              location.reload(true);
+              this.$router.push("/")
             } 
       }
 }

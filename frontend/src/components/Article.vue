@@ -10,7 +10,7 @@
         <!-- Bouton de suppression : passer l'id de l'Article dans la fonction 'deleteArticle' --> 
         <!-- ajouter dans le button la ligne (adaptée bien sûr) v-if="data.username == mess.username || data.status == 'admin'" -->
         <button                    
-            v-if="isAdmin"
+            v-if="showButton"
             @click="deleteArticle(articleid)"
             type="button"                    
         >                
@@ -55,39 +55,23 @@
 import axios from "axios"
 import Commentaire from "./Commentaire.vue"
 
-// tout ce qui concerne le isAdmin
-var userConnectedIsAdmin=localStorage.getItem('admin')
-var userConnectedId=localStorage.getItem('userId')
-console.log('userConnectedIsAdmin : ' +userConnectedIsAdmin +' UserConnectedId: ' + userConnectedId)
-let isAdminJs=true
-/*
-if (userConnectedIsAdmin==="1"){
-    isAdminJs=true
-    console.log('utilisateur Admin !')
-    }
-    else{
-        isAdminJs=false
-        console.log('utilisateur pas Admin !')
-    }
-console.log('isAdmin : ' + isAdminJs)
-// fin du isAdmin */
-
 export default {
 
     emits:["reloadArticle"],
     components:{
         Commentaire
     },
-    props:["name", "articleid", "articlecontent", "picture", "creationdate"],
+    props:["name", "articleid", "articlecontent", "picture", "creationdate","userid"],
     data() {
         return {
             commentaires:[],
             seeDetails:false,
             message:"",
-            isAdmin:isAdminJs         
+            showButton:false         
         }
     },
-    computed: {        
+    computed: {
+        
         formattedDate() {
             let date = new Date(this.creationdate)
             let day = Number(date.getDate()) >= 10 ? date.getDate() : '0'+date.getDate()
@@ -96,6 +80,11 @@ export default {
     }, 
     
   mounted() {
+    console.log('article.userId : '+ this.userid +' localSto : '  + localStorage.getItem('userId'))
+    
+    if(this.userid == localStorage.getItem('userId') || localStorage.getItem('admin')==1){
+        this.showButton = true
+    }
     
     //Appel à l'api pour l'affichage des commentaires
     this.getCommentaires()
