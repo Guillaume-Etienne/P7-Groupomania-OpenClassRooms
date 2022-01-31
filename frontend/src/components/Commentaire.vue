@@ -36,6 +36,7 @@ console.log('isAdmin : ' + isAdminJs)
 
 export default {
     props:["name", "commentid","userid", "articleid", "content", "creationdate"],
+    emits:["reloadCommentaire"],
     data() {
         return {
             commentaires:[],
@@ -49,22 +50,17 @@ export default {
             let date = new Date(this.creationdate)
             let day = Number(date.getDate()) >= 10 ? date.getDate() : '0'+date.getDate()
             return `${day}/${date.getMonth()}2/${date.getFullYear()} à ${date.getHours()}:${date.getMinutes()}`
-        },
-        dynamicProps() {
-            if(this.currentTab == 'Views') {
-                return { views:this.views }
-            }
-            return null
-        }
+        }        
     },
     methods : {
-        deletecom: function (comToDelete) {//Fonction qui envoi la réponse de l'utilisateur au serveur            
+        deletecom (comToDelete) {//Fonction qui envoi la réponse de l'utilisateur au serveur            
         
         console.log("deletecom lancée pour : "+ comToDelete)        
         if (confirm("êtes vous sûr de vouloir supprimer ce message ?")) {
             axios.delete(`http://localhost:3000/api/comments/${comToDelete}`)
                 .then ((response) => {
-                    console.log('suppression ok by Front ')    
+                    console.log('suppression ok by Front ')
+                    this.$emit("reloadCommentaire")  
         
                 })
                 .catch(() => console.log('Echec à la suppression mais pas sûre en vrai')) 

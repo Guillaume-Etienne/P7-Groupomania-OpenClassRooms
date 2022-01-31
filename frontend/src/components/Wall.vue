@@ -2,7 +2,7 @@
   <div id="wall">    
     <div class="getMessag">
       <h3 id="mess">Les messages</h3>
-      <Article v-for="message in messages" :key="message.articleid" v-bind="message"> </Article>
+      <Article @reload-article="getArticles" v-for="message in messages" :key="message.articleid" v-bind="message"> </Article>
     </div>    
   </div>
 </template>
@@ -24,12 +24,17 @@ export default {
   },
   mounted() {
     //Appel à l'api pour l'affichage de tous les messages
-    axios
+    this.getArticles()
+  },
+  methods: {
+    getArticles() {
+      axios
       .get("http://localhost:3000/api/articles")
       .then(response => {
         this.messages = response.data;
       })
       .catch(error => console.log(error))
+    }
   }
 }
 </script>

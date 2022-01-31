@@ -32,9 +32,10 @@ exports.insertArticle = (newby) => {
     })  
    }
 
-   exports.deleteArticle = (articleToDelete) => {
+   exports.deleteArticle = (articleToDelete, user=null) => {
     return new Promise ((resolve, reject) =>{
-      db.query('DELETE FROM articles WHERE articleid=?', [articleToDelete], (error, result, fields) =>{
+      if(user==null){
+        db.query('DELETE FROM articles WHERE articleid=?', [articleToDelete], (error, result, fields) =>{
           if (error) {
             console.log('Problème effacement dans commentsmodels.js  :' + error)
             return reject(error)
@@ -43,5 +44,16 @@ exports.insertArticle = (newby) => {
                      
           resolve(id)
       })
+      }else{
+        db.query('DELETE FROM articles WHERE articleid=? AND userid=?', [articleToDelete, user], (error, result, fields) =>{
+          if (error) {
+            console.log('Problème effacement dans commentsmodels.js  :' + error)
+            return reject(error)
+          }
+          const id = result
+                     
+          resolve(id)
+      })
+      }
    })  
    }

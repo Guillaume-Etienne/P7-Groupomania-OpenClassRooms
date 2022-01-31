@@ -20,7 +20,7 @@
         <div v-show="seeDetails" class="details">
             <h3>Commentaires</h3>         
                               <!-- -->
-            <Commentaire v-for="commentaire in commentaires" :key="commentaire.commentid" v-bind="commentaire"> </Commentaire>
+            <Commentaire @reload-commentaire="getCommentaires" v-for="commentaire in commentaires" :key="commentaire.commentid" v-bind="commentaire"> </Commentaire>
             <h4>Ajouter un Commentaire</h4>
             <form
                 id="formtog"
@@ -71,7 +71,8 @@ console.log('isAdmin : ' + isAdminJs)
 // fin du isAdmin
 
 export default {
-    name: "messdiv",
+
+    emits:["reloadArticle"],
     components:{
         Commentaire
     },
@@ -99,68 +100,70 @@ export default {
     }, 
     
   mounted() {
-      console.log('trouver le article id : '+ this.articleid)
+    console.log('trouver le article id : '+ this.articleid)
     //Appel à l'api pour l'affichage des commentaires
-    axios
-      .get(`http://localhost:3000/api/comments/getbyarticle/${this.articleid}`)
-      .then(response => {
-        this.commentaires = response.data;
-      })
-      .catch(error => console.log(error))
+    this.getCommentaires()
   },
     methods:{
+        getCommentaires(){
+            //Appel à l'api pour l'affichage des commentaires
+            axios
+            .get(`http://localhost:3000/api/comments/getbyarticle/${this.articleid}`)
+            .then(response => {
+                this.commentaires = response.data;
+            })
+            .catch(error => console.log(error))
+        },
         seeCommentaires(){
             this.seeDetails=!this.seeDetails
             if (this.seeDetails){
                 if (!this.commentaires){}// axios.get this.commentaire = response.data}
             }
         },
-        deleteArticle: function (artToDelete) {// Passer l'id à péter fils            
-        
-        console.log("deleteArticle lancée pour : "+ artToDelete)        
-        if (confirm("êtes vous sûr de vouloir supprimer cet article ?")) {
-            axios.delete(`http://localhost:3000/api/articles/${artToDelete}`)
+        deleteArticle: function (artToDelete) {// Passer l'id à péter fils   
+            console.log("deleteArticle lancée pour : "+ artToDelete)        
+            if (confirm("êtes vous sûr de vouloir supprimer cet article ?")) {
+                axios.delete(`http://localhost:3000/api/articles/${artToDelete}`)
                 .then ((response) => {
-                    console.log('suppression ok by Front ')    
-        
+                    console.log('suppression ok by Front ')
+                    this.$emit("reloadArticle")  
                 })
                 .catch(() => console.log('Echec à la suppression')) 
             }
         },
         
-        sendComment: function () {//Fonction qui envoi la réponse de l'utilisateur au serveur 
-            
-        let userConnected=localStorage.getItem('userId')
-        console.log("userconnected détecté : "+ userConnected)
-        let idUSERS = userConnected
-        let idArticle = this.articleid
-        if (this.message === ""){
-          alert('Vous n\'avez rien écris vous ne pouvez pas envoyé un message vide !')
-        } else{
-           axios.post('http://localhost:3000/api/comments',
-        {
-          userid : idUSERS,
-          articleid : idArticle,
-          commentcontent: this.message          
-        },{
-          headers: {
-            'Content-type': 'application/json',
-            'Authorization' : `Bearer`
-              }
-        })
-        .then (() => { 
-            console.log('commentaire envoyé')
-            this.message ==="";
-            alert('votre commentaire a bien été envoyé !')
-            window.location.href = "http://localhost:8080/#/"
-            location.reload(true)
-       })
-       .catch(() =>{
-         console.log('la réponse n\'a pas été envoyé')
-       }) 
-        }
+        sendComment: function () {//Fonction qui envoie le commentaire serveur             
+            let userConnected=localStorage.getItem('userId')
+            console.log("userconnected détecté : "+ userConnected)
+            let idUSERS = userConnected
+            let idArticle = this.articleid
+            if (this.message === ""){
+                alert('Vous n\'avez rien écris vous ne pouvez pas envoyé un commentaire vide !')
+            } else{
+                axios.post('http://localhost:3000/api/comments',
+                {
+                    userid : idUSERS,
+                    articleid : idArticle,
+                    commentcontent: this.message          
+                },{
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization' : `Bearer`
+                    }
+                })
+                .then (() => {
+                    this.getCommentaires()
+                    console.log('commentaire envoyé')
+                    this.message ==="";
+                    alert('votre commentaire a bien été envoyé !')
+                    
+                })
+                .catch(() =>{
+                    console.log('la réponse n\'a pas été envoyé')
+                }) 
+            }
        
-      }
+         }
     }
 }
 

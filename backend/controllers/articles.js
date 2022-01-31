@@ -4,14 +4,14 @@ const modelArticle = require("../models/articlesmodel")
 
 exports.createarticles = (req, res, next) => {
   const articlecreated = req.file ? {
-    userid : req.body.userid,
+    userid : req.auth.userId,
     articlecontent : req.body.articlecontent,
     picture : `${req.protocol}://${req.get("host")}/images/${
       req.file.filename
     }`,
     creationdate : new Date() 
   } : {
-    userid : req.body.userid,
+    userid : req.auth.userId,
     articlecontent : req.body.articlecontent,
     picture : "no picture",
     creationdate : new Date() 
@@ -30,9 +30,17 @@ exports.getAllArticles = (req, res, next) => {
 }
 
 exports.deleteArticle = (req, res, next) => {  
-  modelArticle.deleteArticle(req.params.id)
+  if (req.user.admin) {
+    modelArticle.deleteArticle(req.params.id)
   .then((articles) => res.status(200).json(articles))
   .catch((error) => res.status(400).json({ error }));
+  }
+  else {
+    modelArticle.deleteArticle(req.params.id, req.auth.userId)
+  .then((articles) => res.status(200).json(articles))
+  .catch((error) => res.status(400).json({ error }));
+  }
+  
 }
 
 /*

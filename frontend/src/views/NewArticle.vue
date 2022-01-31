@@ -77,33 +77,26 @@ export default {
     },
 */
     onFileChange: function(e) {
-      const files = this.$refs.file.files[0];
-      console.log("onFileChange lancé . files : " + files)
-      if (files.length === 0) {
-        return;
-      }
-      const reader = new FileReader();
-      reader.readAsDataURL(files[0]);
-      reader.onload = () => {
-        this.gifFile = reader.result
-        console.log("onFileChange gifFile : " + reader.result)
-      }
+      this.gifFile=e.target.files[0]
     },
 
 
-    sendMessage(){      
-      axios.post("http://localhost:3000/api/articles/", {
-        "articlecontent" : this.message,
-        "picture": this.gifFile,
-        "userid": localStorage.getItem('userId')
-      },
-      {
+    sendMessage(){
+      let formdata= new FormData()
+      formdata.append("articlecontent",this.message)
+      if (this.gifFile!=null){
+        formdata.append("picture", this.gifFile)
+      }
+      axios.post("http://localhost:3000/api/articles/", formdata,{
         headers:{
-          //"Content-Type":"multipart/form-data",
-          "Authorization":"Bearer:"+localStorage.getItem('token')
-        }        
+          "Content-Type":"multipart/form-data", 
+        "Authorization":"Bearer: "+localStorage.getItem('token')
+        }              
+      }      
+      )
+      .then(() => {
+        this.$router.push('/')
       })
-      window.location.href = " http://localhost:8080/#/"
     }
   }
   

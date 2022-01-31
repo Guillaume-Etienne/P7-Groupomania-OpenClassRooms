@@ -46,8 +46,7 @@ export default {
       }
   },
   methods:{
-    envoi : function () {//Fonction qui envoi le formulaire d'inscription à l'API
-      let token = ""      
+    envoi () {//Fonction qui envoi le formulaire d'inscription à l'API
       if (this.email == "" || this.password == ""  ){
         alert('Veuillez remplir tous les champs avant d\'envoyer le formulaire !')
       }else {
@@ -57,8 +56,7 @@ export default {
       },
       {
         headers: {
-          'Content-type': 'application/json',
-          'Authorization': `Bearer${token}`
+          'Content-type': 'application/json'          
             }
       })
       .then ((response) => {
@@ -66,9 +64,8 @@ export default {
         alert('Vous êtes à présent connecté, bonne navigation !')    
         localStorage.setItem('userId', JSON.stringify(response.data.userId))
         localStorage.setItem('admin', response.data.admin)
-        localStorage.setItem('token', response.data.token)        
-        window.location.href = "http://localhost:8080/#/"
-        location.reload(true)
+        localStorage.setItem('token', response.data.token) 
+        this.$router.push("/")
         })
       .catch(() => {
         console.log('Echec de la connection catchée mais pas sûre en vrai')
